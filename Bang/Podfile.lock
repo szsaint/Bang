@@ -1,0 +1,70 @@
+PODS:
+  - AFDownloadRequestOperation (2.0.1):
+    - AFNetworking (~> 2.0)
+  - AFNetworking (2.6.3):
+    - AFNetworking/NSURLConnection (= 2.6.3)
+    - AFNetworking/NSURLSession (= 2.6.3)
+    - AFNetworking/Reachability (= 2.6.3)
+    - AFNetworking/Security (= 2.6.3)
+    - AFNetworking/Serialization (= 2.6.3)
+    - AFNetworking/UIKit (= 2.6.3)
+  - AFNetworking/NSURLConnection (2.6.3):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/NSURLSession (2.6.3):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (2.6.3)
+  - AFNetworking/Security (2.6.3)
+  - AFNetworking/Serialization (2.6.3)
+  - AFNetworking/UIKit (2.6.3):
+    - AFNetworking/NSURLConnection
+    - AFNetworking/NSURLSession
+  - AMap2DMap (3.1.0)
+  - AMapSearch (3.0.1)
+  - Bugly (1.4.1)
+  - CocoaLumberjack (2.2.0):
+    - CocoaLumberjack/Default (= 2.2.0)
+    - CocoaLumberjack/Extensions (= 2.2.0)
+  - CocoaLumberjack/Core (2.2.0)
+  - CocoaLumberjack/Default (2.2.0):
+    - CocoaLumberjack/Core
+  - CocoaLumberjack/Extensions (2.2.0):
+    - CocoaLumberjack/Default
+  - MJRefresh (3.0.1)
+  - RPJSONValidator (0.2.0)
+  - SDWebImage (3.7.3):
+    - SDWebImage/Core (= 3.7.3)
+  - SDWebImage/Core (3.7.3)
+  - SVProgressHUD (1.1.3)
+  - YTKNetwork (0.5.0):
+    - AFDownloadRequestOperation (~> 2.0)
+    - AFNetworking (~> 2.0)
+
+DEPENDENCIES:
+  - AMap2DMap
+  - AMapSearch
+  - Bugly
+  - CocoaLumberjack
+  - MJRefresh
+  - RPJSONValidator (~> 0.2.0)
+  - SDWebImage (~> 3.7)
+  - SVProgressHUD
+  - YTKNetwork
+
+SPEC CHECKSUMS:
+  AFDownloadRequestOperation: 748a1643423e1ddb23f2178f778087d4f0ae8ac7
+  AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
+  AMap2DMap: a6741139dd16d237713c4fd6cae9a0399ca1fe25
+  AMapSearch: 431b082417bd3da0c2fe594c4822b664607891e9
+  Bugly: 2f062c00a78566052c13d9b4b11a03ac0f1ae1b8
+  CocoaLumberjack: 17fe8581f84914d5d7e6360f7c70022b173c3ae0
+  MJRefresh: ca22bb7197c4a17a0491763773cd5cb106b2a810
+  RPJSONValidator: a079b234c0f87833b657708adb80531dc45dbe83
+  SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
+  SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
+  YTKNetwork: 3f163c181ce5f03d52cf88f39d6757f46894280c
+
+COCOAPODS: 0.39.0
