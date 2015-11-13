@@ -1,0 +1,29 @@
+# Uncomment this line to define a global platform for your project
+platform :ios, '7.0'
+# Uncomment this line if you're using Swift
+# use_frameworks!
+
+target 'Bang' do
+
+pod 'AMap2DMap'
+pod 'AMapSearch'
+pod 'YTKNetwork'
+pod 'SDWebImage', '~>3.7'
+pod 'SVProgressHUD'
+pod 'MJRefresh'
+pod 'Bugly'
+pod 'RPJSONValidator','~>0.2.0'
+pod 'CocoaLumberjack'
+
+end
+
+target 'BangTests' do
+
+end
+
+target 'BangUITests' do
+
+end
+
+
+
