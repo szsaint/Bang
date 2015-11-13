@@ -44,9 +44,13 @@ static const int ddLogLevel = LOG_LEVEL_WARN;
 
 #define I6PLUS_I4S_W_SCALE 1.3
 #define I6PLUS_I4S_H_SCALE 1.5
+//系统版本
+#define iOS8 ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
+
 
 //颜色
 #define RGB(_R,_G,_B,_A) [UIColor colorWithRed:_R/255.0f green:_G/255.0f blue:_B/255.0f alpha:_A]
+#define CONTENT_COLOR    [UIColor colorWithRed:41/255.0f green:140/255.0f blue:88/255.0f alpha:1]
 
 #define kAMapKey @"937e268ab115d16bb69b4fb1c56716d7"
 #define kServiceUrl @"https://v1.ibangi.cn/"

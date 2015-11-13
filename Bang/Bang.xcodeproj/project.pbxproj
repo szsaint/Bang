@@ -31,6 +31,8 @@
 		477BD0221BF38E640014D3F4 /* NearbyServers.m in Sources */ = {isa = PBXBuildFile; fileRef = 477BD0211BF38E640014D3F4 /* NearbyServers.m */; };
 		47C9DCF31BF61AAC00D3369D /* MainLeftView.m in Sources */ = {isa = PBXBuildFile; fileRef = 47C9DCF21BF61AAC00D3369D /* MainLeftView.m */; };
 		593FC3FC5925E0533C767874 /* libPods-Bang.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A128346A089F986A350E33B7 /* libPods-Bang.a */; };
+		77B9CC9D1BF64BAA005E73F8 /* BangActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B9CC9C1BF64BAA005E73F8 /* BangActionSheet.m */; };
+		77B9CCA01BF64C15005E73F8 /* BangPersonController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B9CC9F1BF64C15005E73F8 /* BangPersonController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,6 +103,10 @@
 		4B01C83C81BFA24BECB11009 /* Pods-Bang.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bang.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Bang/Pods-Bang.debug.xcconfig"; sourceTree = "<group>"; };
 		5980770F603D63D0949E53E7 /* Pods-Bang.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bang.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bang/Pods-Bang.release.xcconfig"; sourceTree = "<group>"; };
 		674378C54AC64DD4A16AADB0 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		77B9CC9B1BF64BAA005E73F8 /* BangActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BangActionSheet.h; sourceTree = "<group>"; };
+		77B9CC9C1BF64BAA005E73F8 /* BangActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BangActionSheet.m; sourceTree = "<group>"; };
+		77B9CC9E1BF64C15005E73F8 /* BangPersonController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BangPersonController.h; sourceTree = "<group>"; };
+		77B9CC9F1BF64C15005E73F8 /* BangPersonController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BangPersonController.m; sourceTree = "<group>"; };
 		A128346A089F986A350E33B7 /* libPods-Bang.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Bang.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -209,6 +215,7 @@
 				4744C81B1BF3B5C30040A56C /* CustomView */,
 				4744C8141BF3B5290040A56C /* Login */,
 				4744C8051BF3AAA50040A56C /* common */,
+				77B9CC8B1BF64763005E73F8 /* UserInfo */,
 				470250A21BF3750B00715768 /* Main */,
 				470250A11BF3750000715768 /* APP */,
 			);
@@ -361,6 +368,41 @@
 				470250741BF3736C00715768 /* ViewController.m */,
 			);
 			name = Controller;
+			sourceTree = "<group>";
+		};
+		77B9CC8B1BF64763005E73F8 /* UserInfo */ = {
+			isa = PBXGroup;
+			children = (
+				77B9CC951BF6482D005E73F8 /* Controller */,
+				77B9CC971BF64858005E73F8 /* Model */,
+				77B9CC961BF6483F005E73F8 /* View */,
+			);
+			name = UserInfo;
+			sourceTree = "<group>";
+		};
+		77B9CC951BF6482D005E73F8 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				77B9CC9E1BF64C15005E73F8 /* BangPersonController.h */,
+				77B9CC9F1BF64C15005E73F8 /* BangPersonController.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		77B9CC961BF6483F005E73F8 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				77B9CC9B1BF64BAA005E73F8 /* BangActionSheet.h */,
+				77B9CC9C1BF64BAA005E73F8 /* BangActionSheet.m */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		77B9CC971BF64858005E73F8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 		D379D1C07BF19CEFE74CEA1E /* Pods */ = {
@@ -556,11 +598,13 @@
 				4744C8081BF3AAB70040A56C /* LocationCommon.m in Sources */,
 				4744C82A1BF3B9620040A56C /* GetUserInfoApi.m in Sources */,
 				477BD0221BF38E640014D3F4 /* NearbyServers.m in Sources */,
+				77B9CCA01BF64C15005E73F8 /* BangPersonController.m in Sources */,
 				4728BC251BF6138B00277565 /* PlaceViewController.m in Sources */,
 				4728BC281BF6139500277565 /* PlaceAroundTableView.m in Sources */,
 				470250721BF3736C00715768 /* AppDelegate.m in Sources */,
 				4702506F1BF3736C00715768 /* main.m in Sources */,
 				4744C81E1BF3B5D00040A56C /* KIWIAlertView.m in Sources */,
+				77B9CC9D1BF64BAA005E73F8 /* BangActionSheet.m in Sources */,
 				4744C8211BF3B5F60040A56C /* RegisterApi.m in Sources */,
 				47C9DCF31BF61AAC00D3369D /* MainLeftView.m in Sources */,
 				4744C8241BF3B6090040A56C /* AaptchaApi.m in Sources */,
