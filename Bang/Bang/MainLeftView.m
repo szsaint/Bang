@@ -44,8 +44,8 @@
         self.tableHeaderView =self.headerView;
         self.backgroundColor =[UIColor colorWithRed:19/255.0f green:20/255.0f blue:38/255.0f alpha:1];
         _defaultStatuSbar =YES;
-        _imageArray =@[@"订单",@"优惠",@"服务",@"申请",@"分享",@"关于"];
-        _titleArray=@[@"我的订单",@"优惠代驾体验",@"服务价格",@"申请成为服务者",@"分享",@"关于"];
+        _imageArray =@[@"我的订单",@"优惠代驾",@"服务价格",@"分享",@"关于"];
+        _titleArray=@[@"我的订单",@"优惠代驾体验",@"服务价格",@"分享",@"关于"];
         [self addObserver:self forKeyPath:@"transform" options:NSKeyValueObservingOptionNew context:nil];
     }
     return self;

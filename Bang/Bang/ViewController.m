@@ -53,7 +53,8 @@ typedef NS_ENUM(NSUInteger, DDState) {
 - (void)initMAMap{
     [MAMapServices sharedServices].apiKey = kAMapKey;
     _mapView = [[MAMapView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
-    _mapView.delegate = self;
+    [_mapView setUserTrackingMode:MAUserTrackingModeFollow animated:YES];
+    [_mapView setZoomLevel:16.1 animated:YES];
     [self.view addSubview:_mapView];
     
     UIScreenEdgePanGestureRecognizer *edgePan =[[UIScreenEdgePanGestureRecognizer alloc]initWithTarget:self action:@selector(edgePan:)];
@@ -160,9 +161,7 @@ typedef NS_ENUM(NSUInteger, DDState) {
                 if ([request responseStatusCode] == 200 && [result[@"rst"] floatValue] == 0.f) {
                         //delegate.isLogin = YES;
                     DDLogDebug(@"登录成功-- %@",request);
-                    _mapView.showsUserLocation = YES;
-                    [_mapView setUserTrackingMode:MAUserTrackingModeFollow animated:YES];
-                    [_mapView setZoomLevel:16.1 animated:YES];
+                    
                     //加载用户信息
                     [self loadUserInfo];
                 }else{
@@ -361,6 +360,8 @@ typedef NS_ENUM(NSUInteger, DDState) {
 }
 
 -(void)viewWillAppear:(BOOL)animated{
+    _mapView.delegate = self;
+    _mapView.showsUserLocation = YES;
     [self initUserLoginInformation];
     if (!self.leftView) {
         self.cover=[Cover creatHideCover];
