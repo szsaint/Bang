@@ -14,6 +14,8 @@
 		4702507D1BF3736D00715768 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4702507B1BF3736D00715768 /* LaunchScreen.storyboard */; };
 		470250881BF3736D00715768 /* BangTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 470250871BF3736D00715768 /* BangTests.m */; };
 		470250931BF3736D00715768 /* BangUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 470250921BF3736D00715768 /* BangUITests.m */; };
+		4728BC251BF6138B00277565 /* PlaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4728BC241BF6138B00277565 /* PlaceViewController.m */; };
+		4728BC281BF6139500277565 /* PlaceAroundTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4728BC271BF6139500277565 /* PlaceAroundTableView.m */; };
 		4744C8081BF3AAB70040A56C /* LocationCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = 4744C8071BF3AAB70040A56C /* LocationCommon.m */; };
 		4744C80B1BF3AAF90040A56C /* UpLoadMyLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4744C80A1BF3AAF90040A56C /* UpLoadMyLocation.m */; };
 		4744C80D1BF3AB9F0040A56C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4744C80C1BF3AB9F0040A56C /* CoreLocation.framework */; };
@@ -27,8 +29,8 @@
 		4744C82A1BF3B9620040A56C /* GetUserInfoApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 4744C8291BF3B9620040A56C /* GetUserInfoApi.m */; };
 		4744C82D1BF3BB890040A56C /* NSObject+OLIVEJSONValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4744C82C1BF3BB890040A56C /* NSObject+OLIVEJSONValidator.m */; };
 		477BD0221BF38E640014D3F4 /* NearbyServers.m in Sources */ = {isa = PBXBuildFile; fileRef = 477BD0211BF38E640014D3F4 /* NearbyServers.m */; };
+		47C9DCF31BF61AAC00D3369D /* MainLeftView.m in Sources */ = {isa = PBXBuildFile; fileRef = 47C9DCF21BF61AAC00D3369D /* MainLeftView.m */; };
 		593FC3FC5925E0533C767874 /* libPods-Bang.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A128346A089F986A350E33B7 /* libPods-Bang.a */; };
-		BCA7623755B434153915A064 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 674378C54AC64DD4A16AADB0 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +66,10 @@
 		4702508E1BF3736D00715768 /* BangUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BangUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		470250921BF3736D00715768 /* BangUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BangUITests.m; sourceTree = "<group>"; };
 		470250941BF3736D00715768 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4728BC231BF6138B00277565 /* PlaceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaceViewController.h; sourceTree = "<group>"; };
+		4728BC241BF6138B00277565 /* PlaceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaceViewController.m; sourceTree = "<group>"; };
+		4728BC261BF6139500277565 /* PlaceAroundTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaceAroundTableView.h; sourceTree = "<group>"; };
+		4728BC271BF6139500277565 /* PlaceAroundTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaceAroundTableView.m; sourceTree = "<group>"; };
 		4744C8061BF3AAB70040A56C /* LocationCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationCommon.h; sourceTree = "<group>"; };
 		4744C8071BF3AAB70040A56C /* LocationCommon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationCommon.m; sourceTree = "<group>"; };
 		4744C8091BF3AAF90040A56C /* UpLoadMyLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpLoadMyLocation.h; sourceTree = "<group>"; };
@@ -90,6 +96,8 @@
 		477BD01B1BF380AB0014D3F4 /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		477BD0201BF38E640014D3F4 /* NearbyServers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearbyServers.h; sourceTree = "<group>"; };
 		477BD0211BF38E640014D3F4 /* NearbyServers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearbyServers.m; sourceTree = "<group>"; };
+		47C9DCF11BF61AAC00D3369D /* MainLeftView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainLeftView.h; sourceTree = "<group>"; };
+		47C9DCF21BF61AAC00D3369D /* MainLeftView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainLeftView.m; sourceTree = "<group>"; };
 		4B01C83C81BFA24BECB11009 /* Pods-Bang.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bang.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Bang/Pods-Bang.debug.xcconfig"; sourceTree = "<group>"; };
 		5980770F603D63D0949E53E7 /* Pods-Bang.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bang.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bang/Pods-Bang.release.xcconfig"; sourceTree = "<group>"; };
 		674378C54AC64DD4A16AADB0 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -102,7 +110,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4744C80D1BF3AB9F0040A56C /* CoreLocation.framework in Frameworks */,
-				BCA7623755B434153915A064 /* libPods.a in Frameworks */,
 				593FC3FC5925E0533C767874 /* libPods-Bang.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -198,6 +205,7 @@
 		470250A01BF3737900715768 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				4728BC1F1BF612E500277565 /* AddressChoose */,
 				4744C81B1BF3B5C30040A56C /* CustomView */,
 				4744C8141BF3B5290040A56C /* Login */,
 				4744C8051BF3AAA50040A56C /* common */,
@@ -224,6 +232,41 @@
 				477BD01D1BF38E140014D3F4 /* Model */,
 			);
 			name = Main;
+			sourceTree = "<group>";
+		};
+		4728BC1F1BF612E500277565 /* AddressChoose */ = {
+			isa = PBXGroup;
+			children = (
+				4728BC221BF6130800277565 /* Controller */,
+				4728BC211BF6130200277565 /* View */,
+				4728BC201BF612F900277565 /* Model */,
+			);
+			name = AddressChoose;
+			sourceTree = "<group>";
+		};
+		4728BC201BF612F900277565 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		4728BC211BF6130200277565 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4728BC261BF6139500277565 /* PlaceAroundTableView.h */,
+				4728BC271BF6139500277565 /* PlaceAroundTableView.m */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		4728BC221BF6130800277565 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				4728BC231BF6138B00277565 /* PlaceViewController.h */,
+				4728BC241BF6138B00277565 /* PlaceViewController.m */,
+			);
+			name = Controller;
 			sourceTree = "<group>";
 		};
 		4744C8051BF3AAA50040A56C /* common */ = {
@@ -301,6 +344,8 @@
 		477BD01E1BF38E1B0014D3F4 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				47C9DCF11BF61AAC00D3369D /* MainLeftView.h */,
+				47C9DCF21BF61AAC00D3369D /* MainLeftView.m */,
 				4744C80E1BF3AF9A0040A56C /* SaintAnnotation.h */,
 				4744C80F1BF3AF9A0040A56C /* SaintAnnotation.m */,
 				4744C8111BF3AFF40040A56C /* SaintAnnotationView.h */,
@@ -511,10 +556,13 @@
 				4744C8081BF3AAB70040A56C /* LocationCommon.m in Sources */,
 				4744C82A1BF3B9620040A56C /* GetUserInfoApi.m in Sources */,
 				477BD0221BF38E640014D3F4 /* NearbyServers.m in Sources */,
+				4728BC251BF6138B00277565 /* PlaceViewController.m in Sources */,
+				4728BC281BF6139500277565 /* PlaceAroundTableView.m in Sources */,
 				470250721BF3736C00715768 /* AppDelegate.m in Sources */,
 				4702506F1BF3736C00715768 /* main.m in Sources */,
 				4744C81E1BF3B5D00040A56C /* KIWIAlertView.m in Sources */,
 				4744C8211BF3B5F60040A56C /* RegisterApi.m in Sources */,
+				47C9DCF31BF61AAC00D3369D /* MainLeftView.m in Sources */,
 				4744C8241BF3B6090040A56C /* AaptchaApi.m in Sources */,
 				4744C82D1BF3BB890040A56C /* NSObject+OLIVEJSONValidator.m in Sources */,
 				4744C81A1BF3B5750040A56C /* LoginViewController.m in Sources */,
@@ -674,6 +722,7 @@
 					"\"${PODS_ROOT}/Headers/Public/YTKNetwork\"",
 				);
 				INFOPLIST_FILE = Bang/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -743,6 +792,7 @@
 					"\"${PODS_ROOT}/Headers/Public/YTKNetwork\"",
 				);
 				INFOPLIST_FILE = Bang/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",

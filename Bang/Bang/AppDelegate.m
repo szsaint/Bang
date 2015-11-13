@@ -47,7 +47,7 @@
     
     UINavigationController *rootNavigation = [[UINavigationController alloc] initWithRootViewController:rootViewController];
     _window.rootViewController = rootNavigation;
-    
+    //DDLogDebug(@"w1w1w1w1%@",_window);
     [_window makeKeyAndVisible];
     return YES;
 }

@@ -16,8 +16,10 @@
 #import "GetUserInfoApi.h"
 #import "LoginViewController.h"
 #import <AMapSearchKit/AMapSearchAPI.h>
+#import "PlaceViewController.h"
+#import "MainLeftView.h"
 
-@interface ViewController ()<MAMapViewDelegate,KIWIAlertViewDelegate,AMapSearchDelegate>
+@interface ViewController ()<MAMapViewDelegate,KIWIAlertViewDelegate,AMapSearchDelegate,UIGestureRecognizerDelegate,MainLeftViewDelegate>
 {
     MAMapView *_mapView;
     NSArray * _drivers;
@@ -30,6 +32,9 @@
     UIButton *_nowPrice;
     UIButton *_callDriver;
 }
+
+@property (nonatomic,strong)MainLeftView *leftView;
+@property (nonatomic,strong)Cover *cover;
 
 @end
 
@@ -50,6 +55,58 @@ typedef NS_ENUM(NSUInteger, DDState) {
     _mapView = [[MAMapView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
     _mapView.delegate = self;
     [self.view addSubview:_mapView];
+    
+    UIScreenEdgePanGestureRecognizer *edgePan =[[UIScreenEdgePanGestureRecognizer alloc]initWithTarget:self action:@selector(edgePan:)];
+    edgePan.edges=UIRectEdgeLeft;
+    edgePan.delegate=self;
+    [_mapView addGestureRecognizer:edgePan];
+    
+}
+
+-(void)edgePan:(UIScreenEdgePanGestureRecognizer *)sender{
+    //获取偏移量
+    CGPoint offsetP =[sender translationInView:_mapView];
+    //获取x轴的偏移量
+    CGFloat offsetX =offsetP.x;
+    //最新位置
+    if (offsetX>=0.8*SCREEN_WIDTH) {
+        offsetX=0.8*SCREEN_WIDTH;
+    }
+    self.leftView.transform=CGAffineTransformMakeTranslation(offsetX, 0);
+    if (sender.state==UIGestureRecognizerStateCancelled||sender.state==UIGestureRecognizerStateEnded||sender.state==UIGestureRecognizerStateFailed) {
+        if (offsetX<0.3*SCREEN_WIDTH) {
+            [UIView animateWithDuration:0.25 animations:^{
+                self.leftView.transform=CGAffineTransformIdentity;
+            }];
+        }else{
+            CGFloat duration =1/(0.8*SCREEN_WIDTH/offsetX)*0.5;
+            [UIView animateWithDuration:duration animations:^{
+                self.leftView.transform=CGAffineTransformMakeTranslation(0.8*SCREEN_WIDTH, 0);
+            }];
+            
+            [self.cover coverShowAnimated];
+        }
+    }
+}
+
+//触发优先级
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldBeRequiredToFailByGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    BOOL result = NO;
+    
+    if ([gestureRecognizer isKindOfClass:[UIScreenEdgePanGestureRecognizer class]]) {
+        result = YES;
+    }
+    return result;
+}
+#pragma mark  leftViewdelegate
+
+-(void)leftView:(MainLeftView *)lefteView didSelectedHeader:(LeftHeaderView *)header{
+    NSLog(@"header onclick");
+}
+
+-(void)leftView:(MainLeftView *)leftView didSelectedItemAtIndex:(NSInteger)index{
+    NSLog(@"%ld",(long)index);
 }
 
 - (void)loadNearbyServers
@@ -233,9 +290,11 @@ typedef NS_ENUM(NSUInteger, DDState) {
             [_fromBtn setBackgroundImage:[UIImage imageNamed:@"时间按钮"] forState:UIControlStateNormal];
             [_fromBtn setBackgroundImage:[UIImage imageNamed:@"时间按钮"] forState:UIControlStateHighlighted];
             [_fromBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            [_fromBtn addTarget:self action:@selector(goSearchPage) forControlEvents:UIControlEventTouchUpInside];
             _toBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, SCREEN_HEIGHT-70, SCREEN_WIDTH-20, 60)];
             [_toBtn setBackgroundImage:[UIImage imageNamed:@"到达地址框"] forState:UIControlStateNormal];
             [_toBtn setBackgroundImage:[UIImage imageNamed:@"到达地址框"] forState:UIControlStateHighlighted];
+            [_toBtn addTarget:self action:@selector(goSearchPage) forControlEvents:UIControlEventTouchUpInside];
             _buttonLocating.frame = CGRectMake(20, SCREEN_HEIGHT-180, 40, 40);
             [self.view addSubview:_fromBtn];
             [self.view addSubview:_toBtn];
@@ -250,8 +309,10 @@ typedef NS_ENUM(NSUInteger, DDState) {
             _fromBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, SCREEN_HEIGHT-240, SCREEN_WIDTH-20, 60)];
             [_fromBtn setBackgroundImage:[UIImage imageNamed:@"时间按钮"] forState:UIControlStateNormal];
             [_fromBtn setBackgroundImage:[UIImage imageNamed:@"时间按钮"] forState:UIControlStateHighlighted];
+            [_fromBtn addTarget:self action:@selector(goSearchPage) forControlEvents:UIControlEventTouchUpInside];
             _toBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, SCREEN_HEIGHT-180, SCREEN_WIDTH-20, 60)];
             [_toBtn setBackgroundColor:[UIColor whiteColor]];
+            [_toBtn addTarget:self action:@selector(goSearchPage) forControlEvents:UIControlEventTouchUpInside];
             _nowPrice = [[UIButton alloc] initWithFrame:CGRectMake(10, SCREEN_HEIGHT-120, SCREEN_WIDTH-20, 60)];
             [_nowPrice setBackgroundImage:[UIImage imageNamed:@"到达地址框"] forState:UIControlStateNormal];
             [_nowPrice setBackgroundImage:[UIImage imageNamed:@"到达地址框"] forState:UIControlStateHighlighted];
@@ -276,6 +337,12 @@ typedef NS_ENUM(NSUInteger, DDState) {
     }
 }
 
+//取地址检索页
+-(void)goSearchPage{
+    PlaceViewController *vc = [[PlaceViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 -(instancetype)init{
     self = [super init];
     if (self) {
@@ -295,8 +362,15 @@ typedef NS_ENUM(NSUInteger, DDState) {
 
 -(void)viewWillAppear:(BOOL)animated{
     [self initUserLoginInformation];
+    if (!self.leftView) {
+        self.cover=[Cover creatHideCover];
+        self.leftView =[MainLeftView shareInstance];
+        self.leftView.leftViewDelegate=self;
+        [self.leftView showInSide];
+    }
+    
+    DDLogDebug(@"%@",NSStringFromCGRect(self.leftView.frame));
 }
-
 
 -(void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation
 updatingLocation:(BOOL)updatingLocation
