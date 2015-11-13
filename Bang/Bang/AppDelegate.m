@@ -7,6 +7,11 @@
 //
 
 #import "AppDelegate.h"
+#import <MAMapKit/MAMapKit.h>
+#import <YTKNetwork/YTKNetworkConfig.h>
+#import <Bugly/CrashReporter.h>
+#import "ViewController.h"
+#import <AMapSearchKit/AMapSearchServices.h>
 
 @interface AppDelegate ()
 
@@ -14,9 +19,36 @@
 
 @implementation AppDelegate
 
+/**
+ *初始化地图key
+ */
+- (void) initAMap{
+    [MAMapServices sharedServices].apiKey = kAMapKey;
+    [AMapSearchServices sharedServices].apiKey = kAMapKey;
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    _window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    _window.backgroundColor = [UIColor whiteColor];
+    
+    [DDLog addLogger:[DDTTYLogger sharedInstance]]; // TTY = Xcode console
+    [DDLog addLogger:[DDASLLogger sharedInstance]]; // ASL = Apple System Logs
+    [[DDTTYLogger sharedInstance] setColorsEnabled:YES];
+    
+    YTKNetworkConfig *config = [YTKNetworkConfig sharedInstance];
+    config.baseUrl = kServiceUrl;
+
+    [[CrashReporter sharedInstance] enableLog:YES];
+    [[CrashReporter sharedInstance] installWithAppId:@"900008150"];
+    
+    [self initAMap];
+    
+    ViewController *rootViewController = [[ViewController alloc] init];
+    
+    UINavigationController *rootNavigation = [[UINavigationController alloc] initWithRootViewController:rootViewController];
+    _window.rootViewController = rootNavigation;
+    
+    [_window makeKeyAndVisible];
     return YES;
 }
 

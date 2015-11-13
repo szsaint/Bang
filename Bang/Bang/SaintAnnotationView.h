@@ -10,4 +10,7 @@
 
 @interface SaintAnnotationView : MAAnnotationView
 
+@property (nonatomic,strong) NSString *driverId;
+@property (nonatomic) NSInteger type;
+
 @end

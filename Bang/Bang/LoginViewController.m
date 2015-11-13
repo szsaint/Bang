@@ -62,42 +62,7 @@
 }
 
 - (void)initUserInterface {
-    /*
-    self.navigationController.interactivePopGestureRecognizer.delegate = self;
-    UIView *topView = [[UIView alloc] init];
-    topView.frame = CGRectMake( 0, 0, SCREEN_WIDTH, 64);
-    topView.backgroundColor = [UIColor whiteColor];
-    topView.alpha = 0.975f;
-    [self.view addSubview:topView];
     
-    UILabel *topicLabel = [[UILabel alloc] init];
-    topicLabel.frame = CGRectMake( (SCREEN_WIDTH - 120)/2, 32, 120, 20);
-    topicLabel.text = @"登录";
-    topicLabel.textAlignment = NSTextAlignmentCenter;
-    topicLabel.textColor = [UIColor blackColor];
-    topicLabel.font = [UIFont systemFontOfSize:22.0f];
-    [topView addSubview:topicLabel];
-    
-    UIButton *leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    leftButton.frame = CGRectMake( 20, 27, 30, 30);
-    [leftButton setTitle:@"取消" forState:UIControlStateNormal];
-    [leftButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    leftButton.titleLabel.font = [UIFont systemFontOfSize:14.0f];
-    [leftButton addTarget:self action:@selector(cancelButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [topView addSubview:leftButton];
-    
-    UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    rightButton.frame = CGRectMake( SCREEN_WIDTH - 50, 27, 30, 30);
-    [rightButton setTitle:@"完成" forState:UIControlStateNormal];
-    [rightButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [rightButton.titleLabel setFont:[UIFont systemFontOfSize:14.0f]];
-    [rightButton addTarget:self action:@selector(sureButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [topView addSubview:rightButton];
-    
-    UIView *bottomLine = [[UIView alloc] init];
-    bottomLine.frame = CGRectMake( 0, 63.5, SCREEN_WIDTH, 1);
-    bottomLine.backgroundColor = [UIColor lightGrayColor];
-    [topView addSubview:bottomLine];*/
 
     UIButton *leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
     leftButton.frame = CGRectMake( 20, 27, 30, 30);
@@ -127,34 +92,10 @@
     _mainScrollView.backgroundColor = [UIColor blackColor];
     [self.view addSubview:_mainScrollView];
     
-//    UIButton *wxLoginButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//    wxLoginButton.frame = CGRectMake( 10, 10, SCREEN_WIDTH - 20, 40);
-//    [wxLoginButton setTitle:@"微信公众账号登录授权" forState:UIControlStateNormal];
-//    [wxLoginButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//    [wxLoginButton setBackgroundColor:RGB(25, 183, 10, 1)];
-//    [_mainScrollView addSubview:wxLoginButton];
-//    
-//    UIImageView * separatorLine1 = [[UIImageView alloc] init];
-//    separatorLine1.frame = CGRectMake(10, 60, SCREEN_WIDTH - 20, 40);
-//    separatorLine1.image = [UIImage imageNamed:@"orline"];
-//    separatorLine1.contentMode = UIViewContentModeScaleAspectFit;
-//    [_mainScrollView addSubview:separatorLine1];
-//    
-//    UILabel * orLabel = [[UILabel alloc] init];
-//    orLabel.frame = CGRectMake(SCREEN_WIDTH/2 - 20, 60, 40, 40);
-//    orLabel.text = @"或";
-//    orLabel.textAlignment = NSTextAlignmentCenter;
-//    orLabel.textColor = [UIColor whiteColor];
-//    orLabel.font = [UIFont systemFontOfSize:14.0f];
-//    [_mainScrollView addSubview:orLabel];
-//    
-//    UIView *phoneNumLeftView = [[UIView alloc] initWithFrame:CGRectMake( 0, 0, 5, 1)];
-//    phoneNumLeftView.backgroundColor = [UIColor whiteColor];
     
     _phoneNumTextField = [[UITextField alloc] init];
     _phoneNumTextField.frame = CGRectMake( 10, 20, SCREEN_WIDTH - 20, 60);
     _phoneNumTextField.delegate = self;
-//    _phoneNumTextField.leftView = phoneNumLeftView;
     _phoneNumTextField.leftViewMode = UITextFieldViewModeAlways;
     _phoneNumTextField.placeholder = @"手机号码";
     _phoneNumTextField.textAlignment = NSTextAlignmentLeft;
@@ -165,11 +106,6 @@
     _phoneNumTextField.keyboardType = UIKeyboardTypeNumberPad;
     [_mainScrollView addSubview:_phoneNumTextField];
     
-//    UIImageView *separatorLine2 = [[UIImageView alloc] init];
-//    separatorLine2.frame = CGRectMake( 10, 60, SCREEN_WIDTH - 20, 1);
-//    separatorLine2.image = [UIImage imageNamed:@"inputline"];
-//    separatorLine2.contentMode = UIViewContentModeScaleAspectFit;
-//    [_mainScrollView addSubview:separatorLine2];
     
     UIView *verifyLeftView = [[UIView alloc] init];
     verifyLeftView.frame = CGRectMake( 0, 0, 5, 1);
@@ -196,23 +132,6 @@
     [_getVerifyCodeBtn setBackgroundImage:[UIImage imageNamed:@"验证码按钮"] forState:UIControlStateNormal];
     [_getVerifyCodeBtn addTarget:self action:@selector(getVerifyCodeButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [_mainScrollView addSubview:_getVerifyCodeBtn];
-
-//    _getVerfyCodeLB = [[UILabel alloc] init];
-//    _getVerfyCodeLB.frame = CGRectMake( SCREEN_WIDTH - 110, 151, 100, 40);
-//    _getVerfyCodeLB.text = @"";
-//    _getVerfyCodeLB.textAlignment = NSTextAlignmentCenter;
-//    _getVerfyCodeLB.textColor = [UIColor darkGrayColor];
-//    _getVerfyCodeLB.font = [UIFont systemFontOfSize:14.0f];
-//    _getVerfyCodeLB.hidden = YES;
-//    _getVerfyCodeLB.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"验证码按钮"]];
-//    [_mainScrollView addSubview:_getVerfyCodeLB];
-    
-//    UIButton *forgetSecretBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    forgetSecretBtn.frame = CGRectMake( SCREEN_WIDTH / 2 - 40, 201, 80, 40);
-//    [forgetSecretBtn setTitle:@"忘记密码?" forState:UIControlStateNormal];
-//    [forgetSecretBtn setTitleColor:RGB(32, 80, 94, 1) forState:UIControlStateNormal];
-//    [forgetSecretBtn.titleLabel setFont:[UIFont systemFontOfSize:10.0f]];
-//    [_mainScrollView addSubview:forgetSecretBtn];
     
 }
 
@@ -294,13 +213,10 @@
         if (request) {
             NSInteger code = [request responseStatusCode];
             if (code == 200) {
-//                [_iBangKey setObject:(id)_phoneNumTextField.text forKey:(__bridge id)(kSecAttrAccount)];
-//                [_iBangKey setObject:(id)_password forKey:(__bridge id)(kSecValueData)];
                 [_iBangKey setValue:_phoneNumTextField.text forKey:kUserName];
                 [_iBangKey setValue:_password forKey:kPassword];
                 [_iBangKey synchronize];
-                ViewController *vc = [[ViewController alloc] init];
-                [self.navigationController pushViewController:vc animated:YES];
+                [self.navigationController popViewControllerAnimated:YES];
             }
         }
     } failure:^(YTKBaseRequest *request) {

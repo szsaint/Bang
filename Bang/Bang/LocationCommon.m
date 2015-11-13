@@ -14,20 +14,20 @@
 /**
  上传用户自身的位置
  **/
-+ (void)upLoadUserLocation:(CLLocation *) location{
++ (void)upLoadUserLocation:(MAUserLocation *) location{
     UpLoadMyLocation *upLoadLoacationApi = [[UpLoadMyLocation alloc] initLoactionWithLng:location];
     [upLoadLoacationApi startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request){
         if (request) {
             id result = [request responseJSONObject];
             float s = [result[@"rst"] floatValue];
             if (s == 0.0f) {
-                NSLog(@"用户位置上传成功！");
+                DDLogDebug(@"用户位置上传成功！");
             }
         }
     } failure:^(YTKBaseRequest *request){
         if (request) {
             id result = [request responseJSONObject];
-            NSLog(@"用户位置上传失败！");
+            DDLogDebug(@"用户位置上传失败！");
         }
     }];
 }

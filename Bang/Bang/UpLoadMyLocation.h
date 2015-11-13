@@ -7,10 +7,11 @@
 //
 
 #import "YTKRequest.h"
+#import <MAMapKit/MAMapKit.h>
 
 @interface UpLoadMyLocation : YTKRequest
 
-- (id)initLoactionWithLng:(CLLocation *) location;
+- (id)initLoactionWithLng:(MAUserLocation *) location;
 
 - (id)responseJSONObject;
 

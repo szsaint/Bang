@@ -9,7 +9,49 @@
 #ifndef PrefixHeader_pch
 #define PrefixHeader_pch
 
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import "DDLog.h"
+#endif
+
+#ifdef DEBUG
+static const int ddLogLevel = LOG_LEVEL_VERBOSE;
+#else
+static const int ddLogLevel = LOG_LEVEL_WARN;
+#endif
+
+#import <CocoaLumberjack/CocoaLumberjack.h>
+#pragma mark -- json校验
+#import "NSObject+OLIVEJSONValidator.h"
+#import "KIWIAlertView.h"
+
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+#define SCREEN_WIDTH ([UIScreen mainScreen].bounds.size.width)
+#define SCREEN_HEIGHT ([UIScreen mainScreen].bounds.size.height)
+
+#define WIDTH_SCALE [UIScreen mainScreen].bounds.size.width/320
+#define HEIGHT_SCALE [UIScreen mainScreen].bounds.size.height/480
+
+//各机型与4s的高度、宽度比例（四舍五入值）
+
+#define I5S_I4S_W_SCALE 1
+#define I5S_I4S_H_SCALE 1.2
+
+#define I6_I4S_W_SCALE 1.2
+#define I6_I4S_H_SCALE 1.4
+
+#define I6PLUS_I4S_W_SCALE 1.3
+#define I6PLUS_I4S_H_SCALE 1.5
+
+//颜色
+#define RGB(_R,_G,_B,_A) [UIColor colorWithRed:_R/255.0f green:_G/255.0f blue:_B/255.0f alpha:_A]
+
+#define kAMapKey @"937e268ab115d16bb69b4fb1c56716d7"
+#define kServiceUrl @"https://v1.ibangi.cn/"
+#define kUserName @"UserName"
+#define kPassword @"Password"
+#define kUserID @"UserId"
 
 #endif /* PrefixHeader_pch */

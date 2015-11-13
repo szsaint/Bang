@@ -10,4 +10,6 @@
 
 @implementation SaintAnnotation
 
+@synthesize tag = _tag;
+
 @end

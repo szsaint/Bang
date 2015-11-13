@@ -7,9 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <MAMapKit/MAMapKit.h>
 
 @interface LocationCommon : NSObject
 
-+ (void)upLoadUserLocation:(CLLocation *) location;
++ (void)upLoadUserLocation:(MAUserLocation *) location;
 
 @end

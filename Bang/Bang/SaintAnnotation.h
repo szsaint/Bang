@@ -10,4 +10,6 @@
 
 @interface SaintAnnotation : MAPointAnnotation
 
+@property (nonatomic,strong) id tag;
+
 @end

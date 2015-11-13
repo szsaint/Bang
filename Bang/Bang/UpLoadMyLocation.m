@@ -10,10 +10,10 @@
 
 @implementation UpLoadMyLocation
 {
-    CLLocation *_location;
+    MAUserLocation *_location;
 }
 
-- (id)initLoactionWithLng:(CLLocation *) location{
+- (id)initLoactionWithLng:(MAUserLocation *) location{
     self = [super init];
     if (self) {
         _location = location;
