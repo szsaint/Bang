@@ -7,9 +7,23 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ViewController.h"
 
-@interface PlaceViewController : UIViewController
+@class DDLocation;
+@class PlaceViewController;
 
+@protocol PlaceViewControllerDelegate <NSObject>
+@optional
+
+- (void)searchViewController:(PlaceViewController *)searchViewController didSelectLocation:(DDLocation *)location;
+
+@end
+
+@interface PlaceViewController : UIViewController<MainViewControllerDelegate>
+
+@property(nonatomic,assign)id<PlaceViewControllerDelegate> searchDelegate;
+
+@property (nonatomic,assign) BOOL isFrom;
 
 @end
 

@@ -47,6 +47,7 @@ static const int ddLogLevel = LOG_LEVEL_WARN;
 
 //颜色
 #define RGB(_R,_G,_B,_A) [UIColor colorWithRed:_R/255.0f green:_G/255.0f blue:_B/255.0f alpha:_A]
+#define SYSTEM_COLOR_GREEN [UIColor colorWithRed:41/255.0f green:140/255.0f blue:88/255.0f alpha:1]
 
 #define kAMapKey @"937e268ab115d16bb69b4fb1c56716d7"
 #define kServiceUrl @"https://v1.ibangi.cn/"

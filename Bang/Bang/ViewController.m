@@ -8,7 +8,6 @@
 
 #import "ViewController.h"
 #import "NearbyServers.h"
-#import <MAMapKit/MAMapKit.h>
 #import "LocationCommon.h"
 #import "SaintAnnotation.h"
 #import "SaintAnnotationView.h"
@@ -19,7 +18,8 @@
 #import "PlaceViewController.h"
 #import "MainLeftView.h"
 
-@interface ViewController ()<MAMapViewDelegate,KIWIAlertViewDelegate,AMapSearchDelegate,UIGestureRecognizerDelegate,MainLeftViewDelegate>
+@interface ViewController ()<MAMapViewDelegate,KIWIAlertViewDelegate,AMapSearchDelegate,UIGestureRecognizerDelegate,MainLeftViewDelegate,
+MainViewControllerDelegate>
 {
     MAMapView *_mapView;
     NSArray * _drivers;
@@ -31,6 +31,9 @@
     UIButton *_toBtn;
     UIButton *_nowPrice;
     UIButton *_callDriver;
+    CLLocationCoordinate2D _startLocation;
+    CLLocationCoordinate2D _endLocation;
+    BOOL _isSetFrom;
 }
 
 @property (nonatomic,strong)MainLeftView *leftView;
@@ -55,6 +58,8 @@ typedef NS_ENUM(NSUInteger, DDState) {
     _mapView = [[MAMapView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
     [_mapView setUserTrackingMode:MAUserTrackingModeFollow animated:YES];
     [_mapView setZoomLevel:16.1 animated:YES];
+    _mapView.delegate = self;
+    _mapView.showsUserLocation = YES;
     [self.view addSubview:_mapView];
     
     UIScreenEdgePanGestureRecognizer *edgePan =[[UIScreenEdgePanGestureRecognizer alloc]initWithTarget:self action:@selector(edgePan:)];
@@ -289,11 +294,13 @@ typedef NS_ENUM(NSUInteger, DDState) {
             [_fromBtn setBackgroundImage:[UIImage imageNamed:@"时间按钮"] forState:UIControlStateNormal];
             [_fromBtn setBackgroundImage:[UIImage imageNamed:@"时间按钮"] forState:UIControlStateHighlighted];
             [_fromBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-            [_fromBtn addTarget:self action:@selector(goSearchPage) forControlEvents:UIControlEventTouchUpInside];
+            [_fromBtn setTag:0];
+            [_fromBtn addTarget:self action:@selector(goSearchPage:) forControlEvents:UIControlEventTouchUpInside];
             _toBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, SCREEN_HEIGHT-70, SCREEN_WIDTH-20, 60)];
             [_toBtn setBackgroundImage:[UIImage imageNamed:@"到达地址框"] forState:UIControlStateNormal];
             [_toBtn setBackgroundImage:[UIImage imageNamed:@"到达地址框"] forState:UIControlStateHighlighted];
-            [_toBtn addTarget:self action:@selector(goSearchPage) forControlEvents:UIControlEventTouchUpInside];
+            [_toBtn setTag:1];
+            [_toBtn addTarget:self action:@selector(goSearchPage:) forControlEvents:UIControlEventTouchUpInside];
             _buttonLocating.frame = CGRectMake(20, SCREEN_HEIGHT-180, 40, 40);
             [self.view addSubview:_fromBtn];
             [self.view addSubview:_toBtn];
@@ -308,10 +315,12 @@ typedef NS_ENUM(NSUInteger, DDState) {
             _fromBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, SCREEN_HEIGHT-240, SCREEN_WIDTH-20, 60)];
             [_fromBtn setBackgroundImage:[UIImage imageNamed:@"时间按钮"] forState:UIControlStateNormal];
             [_fromBtn setBackgroundImage:[UIImage imageNamed:@"时间按钮"] forState:UIControlStateHighlighted];
-            [_fromBtn addTarget:self action:@selector(goSearchPage) forControlEvents:UIControlEventTouchUpInside];
+            [_fromBtn setTag:0];
+            [_fromBtn addTarget:self action:@selector(goSearchPage:) forControlEvents:UIControlEventTouchUpInside];
             _toBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, SCREEN_HEIGHT-180, SCREEN_WIDTH-20, 60)];
             [_toBtn setBackgroundColor:[UIColor whiteColor]];
-            [_toBtn addTarget:self action:@selector(goSearchPage) forControlEvents:UIControlEventTouchUpInside];
+            [_toBtn setTag:1];
+            [_toBtn addTarget:self action:@selector(goSearchPage:) forControlEvents:UIControlEventTouchUpInside];
             _nowPrice = [[UIButton alloc] initWithFrame:CGRectMake(10, SCREEN_HEIGHT-120, SCREEN_WIDTH-20, 60)];
             [_nowPrice setBackgroundImage:[UIImage imageNamed:@"到达地址框"] forState:UIControlStateNormal];
             [_nowPrice setBackgroundImage:[UIImage imageNamed:@"到达地址框"] forState:UIControlStateHighlighted];
@@ -337,10 +346,22 @@ typedef NS_ENUM(NSUInteger, DDState) {
 }
 
 //取地址检索页
--(void)goSearchPage{
+-(void)goSearchPage:(UIButton *) button{
     PlaceViewController *vc = [[PlaceViewController alloc] init];
+    if ([button tag] == 0) {
+        vc.isFrom = YES;
+    }else{
+        vc.isFrom = NO;
+    }
+    //vc.mainDelegate = self;
     [self.navigationController pushViewController:vc animated:YES];
 }
+
+-(void)setLocation:(CLLocationCoordinate2D)location isFrom:(BOOL)isFrom{
+    _isSetFrom = isFrom;
+    
+}
+
 
 -(instancetype)init{
     self = [super init];
@@ -360,8 +381,6 @@ typedef NS_ENUM(NSUInteger, DDState) {
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    _mapView.delegate = self;
-    _mapView.showsUserLocation = YES;
     [self initUserLoginInformation];
     if (!self.leftView) {
         self.cover=[Cover creatHideCover];

@@ -7,9 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MAMapKit/MAMapKit.h>
+
+@protocol MainViewControllerDelegate <NSObject>
+
+@optional
+
+-(void) setLocation:(CLLocationCoordinate2D)location isFrom:(BOOL) isFrom;
+
+@end
 
 @interface ViewController : UIViewController
 
+@property (nonatomic,assign) id<MainViewControllerDelegate> mianDelegate;
 
 @end
 

@@ -11,6 +11,7 @@
 #import <YTKNetwork/YTKNetworkConfig.h>
 #import <Bugly/CrashReporter.h>
 #import "ViewController.h"
+#import "MainViewController.h"
 #import <AMapSearchKit/AMapSearchServices.h>
 
 @interface AppDelegate ()
@@ -43,8 +44,8 @@
     
     [self initAMap];
     
-    ViewController *rootViewController = [[ViewController alloc] init];
-    
+    //ViewController *rootViewController = [[ViewController alloc] init];
+    MainViewController *rootViewController = [[MainViewController alloc] init];
     UINavigationController *rootNavigation = [[UINavigationController alloc] initWithRootViewController:rootViewController];
     _window.rootViewController = rootNavigation;
     //DDLogDebug(@"w1w1w1w1%@",_window);

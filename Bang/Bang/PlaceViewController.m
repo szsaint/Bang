@@ -10,6 +10,7 @@
 #import <MAMapKit/MAMapKit.h>
 #import <AMapSearchKit/AMapSearchKit.h>
 #import "PlaceAroundTableView.h"
+#import "DDLocation.h"
 
 @interface PlaceViewController ()<MAMapViewDelegate,PlaceAroundTableViewDeleagate>
 
@@ -85,10 +86,17 @@
     }
     
     self.isMapViewRegionChangedFromTableView = YES;
-    
-    CLLocationCoordinate2D location = CLLocationCoordinate2DMake(selectedPoi.location.latitude, selectedPoi.location.longitude);
-    
-    [self.mapView setCenterCoordinate:location animated:YES];
+    DDLocation *location = [[DDLocation alloc] init];
+    CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(selectedPoi.location.latitude, selectedPoi.location.longitude);
+    location.coordinate = coordinate;
+    location.name = selectedPoi.name;
+    location.cityCode = selectedPoi.citycode;
+    location.address = selectedPoi.address;
+    if (_searchDelegate && [_searchDelegate respondsToSelector:@selector(searchViewController:didSelectLocation:)])
+    {
+        [_searchDelegate searchViewController:self didSelectLocation:location];
+    }
+    [self.mapView setCenterCoordinate:coordinate animated:YES];
 }
 
 - (void)didPositionCellTapped
@@ -252,10 +260,21 @@
                      completion:nil];
 }
 
+-(void) backToLast{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 #pragma mark - Life Cycle
 
 - (void)viewDidLoad
 {
+    UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    backBtn.frame = CGRectMake(0, 0, 30, 30);
+    [backBtn setBackgroundImage:[UIImage imageNamed:@"返回"] forState:UIControlStateNormal];
+    [backBtn addTarget:self action:@selector(backToLast) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+    self.navigationItem.leftBarButtonItem = backItem;
+    
     [super viewDidLoad];
     
     [self initTableview];

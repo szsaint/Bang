@@ -30,6 +30,20 @@
 		4744C82D1BF3BB890040A56C /* NSObject+OLIVEJSONValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4744C82C1BF3BB890040A56C /* NSObject+OLIVEJSONValidator.m */; };
 		477BD0221BF38E640014D3F4 /* NearbyServers.m in Sources */ = {isa = PBXBuildFile; fileRef = 477BD0211BF38E640014D3F4 /* NearbyServers.m */; };
 		47C9DCF31BF61AAC00D3369D /* MainLeftView.m in Sources */ = {isa = PBXBuildFile; fileRef = 47C9DCF21BF61AAC00D3369D /* MainLeftView.m */; };
+		47D1D0801BF75600008DCE34 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47D1D07F1BF75600008DCE34 /* MainViewController.m */; };
+		47D1D0841BF75662008DCE34 /* DDLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 47D1D0831BF75662008DCE34 /* DDLocation.m */; };
+		47D1D0871BF7568F008DCE34 /* DDSearchManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 47D1D0861BF7568F008DCE34 /* DDSearchManager.m */; };
+		47D1D08A1BF75AD2008DCE34 /* DDSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47D1D0891BF75AD2008DCE34 /* DDSearchViewController.m */; };
+		47D1D08F1BF75EEB008DCE34 /* DDLocationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 47D1D08C1BF75EEB008DCE34 /* DDLocationView.m */; };
+		47D1D0901BF75EEB008DCE34 /* DDLocationControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 47D1D08E1BF75EEB008DCE34 /* DDLocationControl.m */; };
+		47D1D0931BF75EFE008DCE34 /* DDDriver.m in Sources */ = {isa = PBXBuildFile; fileRef = 47D1D0921BF75EFE008DCE34 /* DDDriver.m */; };
+		47D1D09C1BF75F24008DCE34 /* DDTaxiCallRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 47D1D0951BF75F24008DCE34 /* DDTaxiCallRequest.m */; };
+		47D1D09D1BF75F24008DCE34 /* DDDriverManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 47D1D0971BF75F24008DCE34 /* DDDriverManager.m */; };
+		47D1D09E1BF75F24008DCE34 /* MANaviRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = 47D1D0991BF75F24008DCE34 /* MANaviRoute.m */; };
+		47D1D09F1BF75F24008DCE34 /* CommonUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 47D1D09B1BF75F24008DCE34 /* CommonUtility.m */; };
+		47D1D0A51BF75F3E008DCE34 /* CACoordLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 47D1D0A21BF75F3E008DCE34 /* CACoordLayer.m */; };
+		47D1D0A61BF75F3E008DCE34 /* MovingAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 47D1D0A41BF75F3E008DCE34 /* MovingAnnotationView.m */; };
+		47D1D0A91BF75F4A008DCE34 /* Toast+UIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 47D1D0A81BF75F4A008DCE34 /* Toast+UIView.m */; };
 		593FC3FC5925E0533C767874 /* libPods-Bang.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A128346A089F986A350E33B7 /* libPods-Bang.a */; };
 /* End PBXBuildFile section */
 
@@ -98,6 +112,34 @@
 		477BD0211BF38E640014D3F4 /* NearbyServers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearbyServers.m; sourceTree = "<group>"; };
 		47C9DCF11BF61AAC00D3369D /* MainLeftView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainLeftView.h; sourceTree = "<group>"; };
 		47C9DCF21BF61AAC00D3369D /* MainLeftView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainLeftView.m; sourceTree = "<group>"; };
+		47D1D07E1BF75600008DCE34 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		47D1D07F1BF75600008DCE34 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		47D1D0821BF75662008DCE34 /* DDLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDLocation.h; sourceTree = "<group>"; };
+		47D1D0831BF75662008DCE34 /* DDLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDLocation.m; sourceTree = "<group>"; };
+		47D1D0851BF7568F008DCE34 /* DDSearchManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDSearchManager.h; sourceTree = "<group>"; };
+		47D1D0861BF7568F008DCE34 /* DDSearchManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDSearchManager.m; sourceTree = "<group>"; };
+		47D1D0881BF75AD2008DCE34 /* DDSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDSearchViewController.h; sourceTree = "<group>"; };
+		47D1D0891BF75AD2008DCE34 /* DDSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDSearchViewController.m; sourceTree = "<group>"; };
+		47D1D08B1BF75EEB008DCE34 /* DDLocationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDLocationView.h; sourceTree = "<group>"; };
+		47D1D08C1BF75EEB008DCE34 /* DDLocationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDLocationView.m; sourceTree = "<group>"; };
+		47D1D08D1BF75EEB008DCE34 /* DDLocationControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDLocationControl.h; sourceTree = "<group>"; };
+		47D1D08E1BF75EEB008DCE34 /* DDLocationControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDLocationControl.m; sourceTree = "<group>"; };
+		47D1D0911BF75EFE008DCE34 /* DDDriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDDriver.h; sourceTree = "<group>"; };
+		47D1D0921BF75EFE008DCE34 /* DDDriver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDDriver.m; sourceTree = "<group>"; };
+		47D1D0941BF75F24008DCE34 /* DDTaxiCallRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDTaxiCallRequest.h; sourceTree = "<group>"; };
+		47D1D0951BF75F24008DCE34 /* DDTaxiCallRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDTaxiCallRequest.m; sourceTree = "<group>"; };
+		47D1D0961BF75F24008DCE34 /* DDDriverManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDDriverManager.h; sourceTree = "<group>"; };
+		47D1D0971BF75F24008DCE34 /* DDDriverManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDDriverManager.m; sourceTree = "<group>"; };
+		47D1D0981BF75F24008DCE34 /* MANaviRoute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MANaviRoute.h; sourceTree = "<group>"; };
+		47D1D0991BF75F24008DCE34 /* MANaviRoute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MANaviRoute.m; sourceTree = "<group>"; };
+		47D1D09A1BF75F24008DCE34 /* CommonUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonUtility.h; sourceTree = "<group>"; };
+		47D1D09B1BF75F24008DCE34 /* CommonUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonUtility.m; sourceTree = "<group>"; };
+		47D1D0A11BF75F3E008DCE34 /* CACoordLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CACoordLayer.h; sourceTree = "<group>"; };
+		47D1D0A21BF75F3E008DCE34 /* CACoordLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CACoordLayer.m; sourceTree = "<group>"; };
+		47D1D0A31BF75F3E008DCE34 /* MovingAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovingAnnotationView.h; sourceTree = "<group>"; };
+		47D1D0A41BF75F3E008DCE34 /* MovingAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovingAnnotationView.m; sourceTree = "<group>"; };
+		47D1D0A71BF75F4A008DCE34 /* Toast+UIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Toast+UIView.h"; sourceTree = "<group>"; };
+		47D1D0A81BF75F4A008DCE34 /* Toast+UIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Toast+UIView.m"; sourceTree = "<group>"; };
 		4B01C83C81BFA24BECB11009 /* Pods-Bang.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bang.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Bang/Pods-Bang.debug.xcconfig"; sourceTree = "<group>"; };
 		5980770F603D63D0949E53E7 /* Pods-Bang.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bang.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bang/Pods-Bang.release.xcconfig"; sourceTree = "<group>"; };
 		674378C54AC64DD4A16AADB0 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -227,6 +269,8 @@
 		470250A21BF3750B00715768 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				47D1D0A01BF75F29008DCE34 /* MovingAnnotion */,
+				47D1D0811BF75617008DCE34 /* utils */,
 				477BD01F1BF38E240014D3F4 /* Controller */,
 				477BD01E1BF38E1B0014D3F4 /* View */,
 				477BD01D1BF38E140014D3F4 /* Model */,
@@ -357,10 +401,52 @@
 		477BD01F1BF38E240014D3F4 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				47D1D0881BF75AD2008DCE34 /* DDSearchViewController.h */,
+				47D1D0891BF75AD2008DCE34 /* DDSearchViewController.m */,
+				47D1D07E1BF75600008DCE34 /* MainViewController.h */,
+				47D1D07F1BF75600008DCE34 /* MainViewController.m */,
 				470250731BF3736C00715768 /* ViewController.h */,
 				470250741BF3736C00715768 /* ViewController.m */,
 			);
 			name = Controller;
+			sourceTree = "<group>";
+		};
+		47D1D0811BF75617008DCE34 /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				47D1D0A71BF75F4A008DCE34 /* Toast+UIView.h */,
+				47D1D0A81BF75F4A008DCE34 /* Toast+UIView.m */,
+				47D1D08B1BF75EEB008DCE34 /* DDLocationView.h */,
+				47D1D08C1BF75EEB008DCE34 /* DDLocationView.m */,
+				47D1D08D1BF75EEB008DCE34 /* DDLocationControl.h */,
+				47D1D08E1BF75EEB008DCE34 /* DDLocationControl.m */,
+				47D1D0851BF7568F008DCE34 /* DDSearchManager.h */,
+				47D1D0861BF7568F008DCE34 /* DDSearchManager.m */,
+				47D1D0821BF75662008DCE34 /* DDLocation.h */,
+				47D1D0831BF75662008DCE34 /* DDLocation.m */,
+				47D1D0911BF75EFE008DCE34 /* DDDriver.h */,
+				47D1D0921BF75EFE008DCE34 /* DDDriver.m */,
+				47D1D0941BF75F24008DCE34 /* DDTaxiCallRequest.h */,
+				47D1D0951BF75F24008DCE34 /* DDTaxiCallRequest.m */,
+				47D1D0961BF75F24008DCE34 /* DDDriverManager.h */,
+				47D1D0971BF75F24008DCE34 /* DDDriverManager.m */,
+				47D1D0981BF75F24008DCE34 /* MANaviRoute.h */,
+				47D1D0991BF75F24008DCE34 /* MANaviRoute.m */,
+				47D1D09A1BF75F24008DCE34 /* CommonUtility.h */,
+				47D1D09B1BF75F24008DCE34 /* CommonUtility.m */,
+			);
+			name = utils;
+			sourceTree = "<group>";
+		};
+		47D1D0A01BF75F29008DCE34 /* MovingAnnotion */ = {
+			isa = PBXGroup;
+			children = (
+				47D1D0A11BF75F3E008DCE34 /* CACoordLayer.h */,
+				47D1D0A21BF75F3E008DCE34 /* CACoordLayer.m */,
+				47D1D0A31BF75F3E008DCE34 /* MovingAnnotationView.h */,
+				47D1D0A41BF75F3E008DCE34 /* MovingAnnotationView.m */,
+			);
+			name = MovingAnnotion;
 			sourceTree = "<group>";
 		};
 		D379D1C07BF19CEFE74CEA1E /* Pods */ = {
@@ -552,23 +638,37 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				47D1D0901BF75EEB008DCE34 /* DDLocationControl.m in Sources */,
 				470250751BF3736C00715768 /* ViewController.m in Sources */,
 				4744C8081BF3AAB70040A56C /* LocationCommon.m in Sources */,
 				4744C82A1BF3B9620040A56C /* GetUserInfoApi.m in Sources */,
+				47D1D0931BF75EFE008DCE34 /* DDDriver.m in Sources */,
+				47D1D09C1BF75F24008DCE34 /* DDTaxiCallRequest.m in Sources */,
 				477BD0221BF38E640014D3F4 /* NearbyServers.m in Sources */,
 				4728BC251BF6138B00277565 /* PlaceViewController.m in Sources */,
 				4728BC281BF6139500277565 /* PlaceAroundTableView.m in Sources */,
+				47D1D0A51BF75F3E008DCE34 /* CACoordLayer.m in Sources */,
+				47D1D08F1BF75EEB008DCE34 /* DDLocationView.m in Sources */,
+				47D1D08A1BF75AD2008DCE34 /* DDSearchViewController.m in Sources */,
+				47D1D0801BF75600008DCE34 /* MainViewController.m in Sources */,
 				470250721BF3736C00715768 /* AppDelegate.m in Sources */,
 				4702506F1BF3736C00715768 /* main.m in Sources */,
 				4744C81E1BF3B5D00040A56C /* KIWIAlertView.m in Sources */,
 				4744C8211BF3B5F60040A56C /* RegisterApi.m in Sources */,
+				47D1D0A61BF75F3E008DCE34 /* MovingAnnotationView.m in Sources */,
 				47C9DCF31BF61AAC00D3369D /* MainLeftView.m in Sources */,
+				47D1D09D1BF75F24008DCE34 /* DDDriverManager.m in Sources */,
 				4744C8241BF3B6090040A56C /* AaptchaApi.m in Sources */,
+				47D1D09E1BF75F24008DCE34 /* MANaviRoute.m in Sources */,
 				4744C82D1BF3BB890040A56C /* NSObject+OLIVEJSONValidator.m in Sources */,
 				4744C81A1BF3B5750040A56C /* LoginViewController.m in Sources */,
+				47D1D0A91BF75F4A008DCE34 /* Toast+UIView.m in Sources */,
 				4744C8131BF3AFF40040A56C /* SaintAnnotationView.m in Sources */,
+				47D1D0841BF75662008DCE34 /* DDLocation.m in Sources */,
 				4744C8101BF3AF9A0040A56C /* SaintAnnotation.m in Sources */,
 				4744C8271BF3B88F0040A56C /* UserLoginApi.m in Sources */,
+				47D1D0871BF7568F008DCE34 /* DDSearchManager.m in Sources */,
+				47D1D09F1BF75F24008DCE34 /* CommonUtility.m in Sources */,
 				4744C80B1BF3AAF90040A56C /* UpLoadMyLocation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
