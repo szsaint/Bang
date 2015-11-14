@@ -28,6 +28,10 @@ static const int ddLogLevel = LOG_LEVEL_WARN;
 
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+//用户名
+#define USER_nike  [[NSUserDefaults standardUserDefaults]objectForKey:@"myName"];
+
+
 #define SCREEN_WIDTH ([UIScreen mainScreen].bounds.size.width)
 #define SCREEN_HEIGHT ([UIScreen mainScreen].bounds.size.height)
 

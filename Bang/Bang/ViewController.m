@@ -18,6 +18,8 @@
 #import <AMapSearchKit/AMapSearchAPI.h>
 #import "PlaceViewController.h"
 #import "MainLeftView.h"
+#import "BangPersonController.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface ViewController ()<MAMapViewDelegate,KIWIAlertViewDelegate,AMapSearchDelegate,UIGestureRecognizerDelegate,MainLeftViewDelegate>
 {
@@ -103,7 +105,19 @@ typedef NS_ENUM(NSUInteger, DDState) {
 #pragma mark  leftViewdelegate
 
 -(void)leftView:(MainLeftView *)lefteView didSelectedHeader:(LeftHeaderView *)header{
-    NSLog(@"header onclick");
+    if ([[NSUserDefaults standardUserDefaults]objectForKey:kUserName]) {
+        //说明已经登陆成功
+        BangPersonController *personVC =[[BangPersonController alloc]init];
+        [self.cover hideWhenPush];
+        [self.navigationController pushViewController:personVC animated:YES];
+
+    }else{
+        //说明时未登录状态
+        LoginViewController *loginVC = [[LoginViewController alloc] init];
+        [self.cover hideWhenPush];
+        [self.navigationController pushViewController:loginVC animated:YES];
+
+    }
 }
 
 -(void)leftView:(MainLeftView *)leftView didSelectedItemAtIndex:(NSInteger)index{
@@ -142,7 +156,7 @@ typedef NS_ENUM(NSUInteger, DDState) {
             NSInteger code = [request responseStatusCode];
             if (code == 401) {
                 _mapView.showsUserLocation = NO;
-                [self toLogin];
+                //[self toLogin];
             }
         }
     }];
@@ -164,17 +178,12 @@ typedef NS_ENUM(NSUInteger, DDState) {
                     
                     //加载用户信息
                     [self loadUserInfo];
-                }else{
-                    [self toLogin];
                 }
             }
         } failure:^(YTKBaseRequest *request) {
             DDLogError(@"登录失败 -- %@",request);
         }];
-    }else{
-        [self toLogin];
-    }
-}
+    }}
 
 -(void)initSearchAPI{
     _search = [[AMapSearchAPI alloc] init];
@@ -220,19 +229,67 @@ typedef NS_ENUM(NSUInteger, DDState) {
                 NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
                 [userDefault setValue:[userInfoArray cy_stringKey:@"id"] forKey:kUserID];
                 [userDefault synchronize];
+                NSString *username =[userInfoArray valueForKey:@"username"];
+                self.leftView.headerView.phoneNumber=username;
+                NSString *banlance =[userInfoArray valueForKey:@"recharge"];
+                self.leftView.headerView.banlance=banlance;
+                
+                [self saveUserInfo:userInfoArray];
+                
+                if ([userInfoArray valueForKey:@"avatar"] != [NSNull null]) {
+                    NSString *url = [kServiceUrl stringByAppendingString:[userInfoArray valueForKey:@"avatar"]];
+
+                    [self.leftView.headerView.userIcon sd_setImageWithURL:[NSURL URLWithString:url]completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                        [self saveImage:image];
+                    }];
+                    
+                }
             }
         }
     } failure:^(YTKBaseRequest *request) {
         NSLog(@"加载失败 -- %@",request);
     }];
 }
+-(void)saveUserInfo:(NSArray *)userinfoArray{
+    NSUserDefaults *userdefault =[NSUserDefaults standardUserDefaults];
+    NSString *myName =[userinfoArray valueForKey:@"name"];//昵称
+    NSString *mySex;//性别
+    if ([userinfoArray valueForKey:@"sex"]!=[NSNull null]) {
+        mySex =[userinfoArray valueForKey:@"sex"];
+    }
+    NSString *myBalance =[userinfoArray valueForKey:@"recharge"];//余额
+    if ([userinfoArray valueForKey:@"birthday"]!=[NSNull null]) {
+        NSString *birthday =[userinfoArray valueForKey:@"birthday"];
+        [userdefault setObject:birthday forKey:@"myBirthDay"];
+        [userdefault synchronize];
+    }
+    [userdefault setObject:myName forKey:@"myName"];
+    [userdefault synchronize];
+    
+    [userdefault setObject:mySex forKey:@"mySex"];
+    [userdefault synchronize];
+    
+    [userdefault setObject:myBalance forKey:@"myBalance"];
+    [userdefault synchronize];
+    
 
--(void)toLogin{
-    KIWIAlertView *alertView = [[KIWIAlertView alloc] initWithTitle:@"您还没有登录哦!" icon:nil message:@"登录之后使用更畅快!" delegate:self buttonTitles:@"取消",@"去登录", nil];
-    [alertView setTag:0];
-    [alertView setMessageColor:[UIColor blackColor] fontSize:0];
-    [alertView show];
 }
+-(void)saveImage:(UIImage *)editImage{
+    //拿到图片
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *path = [paths lastObject];
+    //设置一个图片的存储路径
+    NSString *imagePath = [path stringByAppendingPathComponent:@"icon.png"];
+    //把图片直接保存到指定的路径（同时应该把图片的路径imagePath存起来，下次就可以直接用来取）
+    [UIImagePNGRepresentation(editImage) writeToFile:imagePath atomically:YES];
+   
+}
+//-(void)toLogin{
+//    KIWIAlertView *alertView = [[KIWIAlertView alloc] initWithTitle:@"您还没有登录哦!" icon:nil message:@"登录之后使用更畅快!" delegate:self buttonTitles:@"取消",@"去登录", nil];
+//    [alertView setTag:0];
+//    [alertView setMessageColor:[UIColor blackColor] fontSize:0];
+//    [alertView show];
+//}
 
 - (void)alertView:(KIWIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if ([alertView tag] == 0) {
@@ -357,20 +414,39 @@ typedef NS_ENUM(NSUInteger, DDState) {
     [self initSearchAPI];
     [self initLocationButton];
     [self initFromAndToBtn:DDState_Init];
+    //添加监听登陆成功的通知
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loginSuccess) name:@"loginSuccess" object:nil];
+    //添加退出登陆的通知
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(exitLogin) name:@"exitLogin" object:nil];
+    //重新加载用户信息的通知
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loadUserInfo) name:@"reloadUserInfo" object:nil];
+    
+
 }
 
+-(void)loginSuccess{
+    //登陆
+    [self initUserLoginInformation];
+}
+-(void)exitLogin{
+    //置空用户信息
+    [self.leftView.headerView deleteDate];
+    
+}
+-(void)iconChange{
+    [self.leftView.headerView reloadIcon];
+}
 -(void)viewWillAppear:(BOOL)animated{
     _mapView.delegate = self;
     _mapView.showsUserLocation = YES;
-    [self initUserLoginInformation];
     if (!self.leftView) {
-        self.cover=[Cover creatHideCover];
         self.leftView =[MainLeftView shareInstance];
+        self.cover=[Cover creatHideCover];
         self.leftView.leftViewDelegate=self;
         [self.leftView showInSide];
     }
+    //可以在这里发送请求更改用户的余额
     
-    DDLogDebug(@"%@",NSStringFromCGRect(self.leftView.frame));
 }
 
 -(void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation
@@ -468,5 +544,7 @@ updatingLocation:(BOOL)updatingLocation
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
+}
 @end

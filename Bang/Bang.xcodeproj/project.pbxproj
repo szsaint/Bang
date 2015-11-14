@@ -33,6 +33,10 @@
 		593FC3FC5925E0533C767874 /* libPods-Bang.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A128346A089F986A350E33B7 /* libPods-Bang.a */; };
 		77B9CC9D1BF64BAA005E73F8 /* BangActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B9CC9C1BF64BAA005E73F8 /* BangActionSheet.m */; };
 		77B9CCA01BF64C15005E73F8 /* BangPersonController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B9CC9F1BF64C15005E73F8 /* BangPersonController.m */; };
+		77B9CCA31BF64EA3005E73F8 /* ChoseImageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B9CCA21BF64EA3005E73F8 /* ChoseImageController.m */; };
+		77B9CCA61BF64F30005E73F8 /* ImagePickController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B9CCA51BF64F30005E73F8 /* ImagePickController.m */; };
+		77B9CCA91BF75502005E73F8 /* UploadImageApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B9CCA81BF75502005E73F8 /* UploadImageApi.m */; };
+		77B9CCAC1BF75545005E73F8 /* CompleteUserInfoApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B9CCAB1BF75545005E73F8 /* CompleteUserInfoApi.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,6 +111,14 @@
 		77B9CC9C1BF64BAA005E73F8 /* BangActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BangActionSheet.m; sourceTree = "<group>"; };
 		77B9CC9E1BF64C15005E73F8 /* BangPersonController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BangPersonController.h; sourceTree = "<group>"; };
 		77B9CC9F1BF64C15005E73F8 /* BangPersonController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BangPersonController.m; sourceTree = "<group>"; };
+		77B9CCA11BF64EA3005E73F8 /* ChoseImageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChoseImageController.h; sourceTree = "<group>"; };
+		77B9CCA21BF64EA3005E73F8 /* ChoseImageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChoseImageController.m; sourceTree = "<group>"; };
+		77B9CCA41BF64F2F005E73F8 /* ImagePickController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImagePickController.h; sourceTree = "<group>"; };
+		77B9CCA51BF64F30005E73F8 /* ImagePickController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImagePickController.m; sourceTree = "<group>"; };
+		77B9CCA71BF75502005E73F8 /* UploadImageApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadImageApi.h; sourceTree = "<group>"; };
+		77B9CCA81BF75502005E73F8 /* UploadImageApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadImageApi.m; sourceTree = "<group>"; };
+		77B9CCAA1BF75545005E73F8 /* CompleteUserInfoApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompleteUserInfoApi.h; sourceTree = "<group>"; };
+		77B9CCAB1BF75545005E73F8 /* CompleteUserInfoApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompleteUserInfoApi.m; sourceTree = "<group>"; };
 		A128346A089F986A350E33B7 /* libPods-Bang.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Bang.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -385,6 +397,10 @@
 			children = (
 				77B9CC9E1BF64C15005E73F8 /* BangPersonController.h */,
 				77B9CC9F1BF64C15005E73F8 /* BangPersonController.m */,
+				77B9CCA11BF64EA3005E73F8 /* ChoseImageController.h */,
+				77B9CCA21BF64EA3005E73F8 /* ChoseImageController.m */,
+				77B9CCA41BF64F2F005E73F8 /* ImagePickController.h */,
+				77B9CCA51BF64F30005E73F8 /* ImagePickController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -401,6 +417,10 @@
 		77B9CC971BF64858005E73F8 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				77B9CCAA1BF75545005E73F8 /* CompleteUserInfoApi.h */,
+				77B9CCAB1BF75545005E73F8 /* CompleteUserInfoApi.m */,
+				77B9CCA71BF75502005E73F8 /* UploadImageApi.h */,
+				77B9CCA81BF75502005E73F8 /* UploadImageApi.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -594,10 +614,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				77B9CCA91BF75502005E73F8 /* UploadImageApi.m in Sources */,
 				470250751BF3736C00715768 /* ViewController.m in Sources */,
 				4744C8081BF3AAB70040A56C /* LocationCommon.m in Sources */,
+				77B9CCA31BF64EA3005E73F8 /* ChoseImageController.m in Sources */,
 				4744C82A1BF3B9620040A56C /* GetUserInfoApi.m in Sources */,
 				477BD0221BF38E640014D3F4 /* NearbyServers.m in Sources */,
+				77B9CCAC1BF75545005E73F8 /* CompleteUserInfoApi.m in Sources */,
 				77B9CCA01BF64C15005E73F8 /* BangPersonController.m in Sources */,
 				4728BC251BF6138B00277565 /* PlaceViewController.m in Sources */,
 				4728BC281BF6139500277565 /* PlaceAroundTableView.m in Sources */,
@@ -611,6 +634,7 @@
 				4744C82D1BF3BB890040A56C /* NSObject+OLIVEJSONValidator.m in Sources */,
 				4744C81A1BF3B5750040A56C /* LoginViewController.m in Sources */,
 				4744C8131BF3AFF40040A56C /* SaintAnnotationView.m in Sources */,
+				77B9CCA61BF64F30005E73F8 /* ImagePickController.m in Sources */,
 				4744C8101BF3AF9A0040A56C /* SaintAnnotation.m in Sources */,
 				4744C8271BF3B88F0040A56C /* UserLoginApi.m in Sources */,
 				4744C80B1BF3AAF90040A56C /* UpLoadMyLocation.m in Sources */,

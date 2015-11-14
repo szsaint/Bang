@@ -9,7 +9,6 @@
 #import "MainLeftView.h"
 @interface MainLeftView ()<UITableViewDelegate,UITableViewDataSource,UIGestureRecognizerDelegate>
 
-@property (nonatomic,strong)LeftHeaderView *headerView;
 
 @end
 
@@ -98,7 +97,7 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 6;
+    return 5;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *ID =@"cell";
@@ -223,9 +222,47 @@
     self.userPhoneNumber.frame =CGRectMake(30, 50+80+5, 0.8*SCREEN_WIDTH-60, 30);
     
     self.userBanlance.frame=CGRectMake(30, 50+80+5+30+5, 0.8*SCREEN_WIDTH-60, 20);
+    [self reloadIcon];
+    NSString *userName =[[NSUserDefaults standardUserDefaults]objectForKey:kUserName];
+    if (userName) {
+        self.userPhoneNumber.text=userName;
+    }else{
+        self.userPhoneNumber.text=@"未登录";
+    }
+    NSString *banlance =[[NSUserDefaults standardUserDefaults]objectForKey:@"myBalance"];
+    if (banlance) {
+        self.userBanlance.text=[NSString stringWithFormat:@"余额:%@",banlance];
+    }else{
+        self.userBanlance.text=[NSString stringWithFormat:@"余额:0.00"];
+
+    }
+
+}
+-(void)reloadIcon{
+    //获取图片
+    //拿到图片
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *path = [paths lastObject];
+    //设置一个图片的存储路径
+    NSString *imagePath = [path stringByAppendingPathComponent:@"icon.png"];
     
-    self.userPhoneNumber.text=@"18362210297";
-    self.userBanlance.text=@"余额:860.05";
+    UIImage *img = [UIImage imageWithContentsOfFile:imagePath];
+    if (img) {
+        self.userIcon.image=img;
+    }
+}
+-(void)setPhoneNumber:(NSString *)phoneNumber{
+    _phoneNumber=phoneNumber;
+    self.userPhoneNumber.text=phoneNumber;
+}
+-(void)setBanlance:(NSString *)banlance{
+    _banlance =banlance;
+    self.userBanlance.text=[NSString stringWithFormat:@"余额:%@",banlance];
+}
+-(void)deleteDate{
+    self.userPhoneNumber.text=@"未登录";
+    self.userBanlance.text=@"余额:0.00";
+    self.userIcon.image=nil;
 }
 @end
 
@@ -332,5 +369,11 @@
         self.alpha=0.3;
     } completion:^(BOOL finished) {
     }];
+}
+-(void)hideWhenPush{
+    [UIView animateWithDuration:0.4 animations:^{
+        self.leftView.transform =CGAffineTransformIdentity;
+    }];
+    [self coverHideAnimated];
 }
 @end

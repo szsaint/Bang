@@ -19,6 +19,7 @@
 @end
 @interface MainLeftView : UITableView
 
+@property (nonatomic,strong)LeftHeaderView *headerView;
 
 @property (nonatomic,weak)id<MainLeftViewDelegate>leftViewDelegate;
 
@@ -27,6 +28,7 @@
 -(void)showInSide;//隐藏在边部
 
 -(void)showInVisble;//可见状态
+
 
 @end
 
@@ -44,10 +46,15 @@
 #pragma mark  leftViewHeader
 @interface LeftHeaderView : UIView
 @property (nonatomic,strong)UIImageView *userIcon;//用户头像
+@property (nonatomic,copy)NSString *phoneNumber;
+@property (nonatomic,copy)NSString *banlance;
+
 @property (nonatomic,strong)UILabel *userPhoneNumber;//用户手机号
 
 @property (nonatomic,strong)UILabel *userBanlance;//用户余额
 
+-(void)deleteDate;
+-(void)reloadIcon;
 @end
 
 #pragma mark  cover
@@ -66,4 +73,7 @@
 
 -(void)coverShowAnimated;
 -(void)coverHideAnimated;
+
+
+-(void)hideWhenPush;
 @end

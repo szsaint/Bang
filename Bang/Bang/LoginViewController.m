@@ -156,7 +156,6 @@
 #pragma mark -- ButtonPressed
 
 - (void)cancelButtonPressed:(UIButton *)button {
-    
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -167,24 +166,35 @@
 - (void)getVerifyCodeButtonPressed:(UIButton *)button {
     
     
-    NSString *regex = @"((13[0-9])|(147)|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";
+    NSString *regex = @"((13[0-9])|(147)|(15[^4,\\D])|(18[0-9]))\\d{8}$";
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",regex];
     BOOL isMatch = [predicate evaluateWithObject:_phoneNumTextField.text];
     if (!isMatch) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请输入正确的手机号码" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        alertView.tag=150;
         [alertView show];
     } else {
         AaptchaApi *api = [[AaptchaApi alloc] initWithPhone:_phoneNumTextField.text];
         [api startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
             if (request) {
                 NSInteger code = [request responseStatusCode];
+                id result = [request responseJSONObject];
+
                 if (code == 200) {
+                    if ([result[@"rst"] floatValue] != 0.f) {
+                        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"短信次数超限,5分钟后再试" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                        [alertView show];
+
+                    }else{
                     KIWIAlertView *alertView = [[KIWIAlertView alloc] initWithTitle:@"成功" icon:nil message:@"验证码发送成功" delegate:self buttonTitles:@"确定", nil];
                     [alertView setMessageColor:[UIColor blackColor] fontSize:0];
                     [alertView setTag:0];
                     [_phoneNumTextField resignFirstResponder];
                     [_verifyTextField resignFirstResponder];
                     [alertView show];
+                    _timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerFireMethod:) userInfo:nil repeats:YES];\
+                        _totalOfTime = 60;}
+
                 }
             }
         } failure:^(YTKBaseRequest *request) {
@@ -200,30 +210,35 @@
 
 - (void)alertView:(KIWIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if ([alertView tag] == 0) {
-        _timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerFireMethod:) userInfo:nil repeats:YES];\
-        _totalOfTime = 60;
         _getVerfyCodeLB.hidden = NO;
         _getVerifyCodeBtn.userInteractionEnabled = NO;
     }
 }
 
 - (void) userRegister{
+    if (_phoneNumTextField.text.length==11&&_verifyTextField.text.length==6){
     RegisterApi *api = [[RegisterApi alloc] initWithPhoneNumber:_phoneNumTextField.text andCaptCha:_verifyTextField.text andPwd:_password];
     [api startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
         if (request) {
             NSInteger code = [request responseStatusCode];
-            if (code == 200) {
+            id result = [request responseJSONObject];
+            if (code == 200&&[result[@"rst"] floatValue] == 0.f) {
                 [_iBangKey setValue:_phoneNumTextField.text forKey:kUserName];
                 [_iBangKey setValue:_password forKey:kPassword];
                 [_iBangKey synchronize];
                 [self.navigationController popViewControllerAnimated:YES];
+                //发送登陆成功通知
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"loginSuccess" object:nil];
+            }else{
+                 KIWIAlertView *alertView = [[KIWIAlertView alloc] initWithTitle:nil icon:nil message:@"验证码不正确或已过期" delegate:nil buttonTitles:@"确定", nil];
+                [alertView show];
             }
         }
     } failure:^(YTKBaseRequest *request) {
         NSInteger code = [request responseStatusCode];
         //json如下
         id result = [request responseJSONObject];
-    }];
+    }];}
 }
 
 - (void) getPassWord{
