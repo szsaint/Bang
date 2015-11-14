@@ -459,6 +459,8 @@ typedef NS_ENUM(NSUInteger, DDState) {
 }
 -(void)viewWillAppear:(BOOL)animated{
     [self initUserLoginInformation];
+    _mapView.delegate = self;
+    _mapView.showsUserLocation = YES;
     if (!self.leftView) {
         self.leftView =[MainLeftView shareInstance];
         self.cover=[Cover creatHideCover];
