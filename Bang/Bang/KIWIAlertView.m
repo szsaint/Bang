@@ -260,7 +260,7 @@ CGFloat contentViewHeight;
         {
             [aSubView.layer removeAllAnimations];
         }
-        [subView addSubview:self];
+        [window addSubview:self];
         [self showBackground];
         [self showAlertAnimation];
     }
