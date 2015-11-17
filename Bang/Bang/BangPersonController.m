@@ -265,22 +265,13 @@
 -(void)exitBtnOnClick:(UIButton *)sender{
     NSUserDefaults *userDefaults =[NSUserDefaults standardUserDefaults];
     [userDefaults removeObjectForKey:kUserName];
-    [userDefaults synchronize];
     [userDefaults removeObjectForKey:kPassword];
-    [userDefaults synchronize];
-    
     [userDefaults removeObjectForKey:kUserID];
-    [userDefaults synchronize];
-
     [userDefaults removeObjectForKey:@"mySex"];
-    [userDefaults synchronize];
     [userDefaults removeObjectForKey:@"myBrithDay"];
-    [userDefaults synchronize];
     [userDefaults removeObjectForKey:@"myName"];
-    [userDefaults synchronize];
     [userDefaults removeObjectForKey:@"myBanlance"];
     [userDefaults synchronize];
-
     [self deleteImage];
     //发送 退出登陆通知
     [[NSNotificationCenter defaultCenter]postNotificationName:@"exitLogin" object:nil];
@@ -439,26 +430,16 @@
     }];
     
 }
-//-(void)saveEditImage:(UIImage *)editImage{
-//    //拿到图片
-//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-//    NSString *path = [paths lastObject];
-//    //设置一个图片的存储路径
-//    NSString *imagePath = [path stringByAppendingPathComponent:@"icon.png"];
-//    //把图片直接保存到指定的路径（同时应该把图片的路径imagePath存起来，下次就可以直接用来取）
-//    BOOL hh =[UIImagePNGRepresentation(editImage) writeToFile:imagePath atomically:YES];
-//    if (hh) {
-//        //发送通知让MeViewController改头像
-//        [[NSNotificationCenter defaultCenter]postNotificationName:@"iconChanged" object:nil];
-//    }
-//}
 -(void)deleteImage{
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *path = [paths lastObject];
     //设置一个图片的存储路径
     NSString *imagePath = [path stringByAppendingPathComponent:@"icon.png"];
           NSFileManager *fileManager = [NSFileManager defaultManager];
+   BOOL success = [fileManager fileExistsAtPath:imagePath];
+    if (success) {
         [fileManager removeItemAtPath:imagePath error:nil];
+    }
     
 }
 -(void)imageCropperDidCancel:(ChoseImageController *)cropperViewControlelr{

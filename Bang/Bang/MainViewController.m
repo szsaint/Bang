@@ -363,9 +363,6 @@ typedef NS_ENUM(NSUInteger, DDState) {
     [self.leftView.headerView deleteDate];
     
 }
--(void)iconChange{
-    [self.leftView.headerView reloadIcon];
-}
 
 -(void)edgePan:(UIScreenEdgePanGestureRecognizer *)sender{
     //获取偏移量
@@ -428,6 +425,11 @@ typedef NS_ENUM(NSUInteger, DDState) {
         _leftView.transform =CGAffineTransformIdentity;
     }];
     [_cover coverHideAnimated];
+    if ([[NSUserDefaults standardUserDefaults]objectForKey:kUserName]){
+        LoginViewController *loginVC = [[LoginViewController alloc] init];
+        [self.navigationController pushViewController:loginVC animated:YES];
+
+    }else{
     switch (index) {
         case 0:
         {
@@ -460,7 +462,7 @@ typedef NS_ENUM(NSUInteger, DDState) {
             break;
         default:
             break;
-    }
+    }}
 }
 
 
@@ -538,6 +540,11 @@ typedef NS_ENUM(NSUInteger, DDState) {
             LoginViewController *loginVC = [[LoginViewController alloc] init];
             [self.navigationController pushViewController:loginVC animated:YES];
         }
+    }else if(alertView.tag==1){
+        if (buttonIndex==0) {
+            LoginViewController *loginVC = [[LoginViewController alloc] init];
+            [self.navigationController pushViewController:loginVC animated:YES];
+        }
     }
 }
 
@@ -558,7 +565,11 @@ typedef NS_ENUM(NSUInteger, DDState) {
                     //加载用户信息
                     [self loadUserInfo];
                 }else{
-                    
+                    //登录失败 重新登录并删除所有本地用户信息
+                    KIWIAlertView *alert =[[KIWIAlertView alloc]initWithTitle:@"您的账户已下线" icon:nil message:@"请重新登录" delegate:self buttonTitles:@"确认", nil];
+                    alert.tag=1;
+                    [alert show];
+                    [self deleteUserDate];
                 }
             }
         } failure:^(YTKBaseRequest *request) {
@@ -567,6 +578,30 @@ typedef NS_ENUM(NSUInteger, DDState) {
         }];
     }}
 
+-(void)deleteUserDate{
+    NSUserDefaults *userDefaults =[NSUserDefaults standardUserDefaults];
+    [userDefaults removeObjectForKey:kUserName];
+    [userDefaults removeObjectForKey:kPassword];
+    [userDefaults removeObjectForKey:kUserID];
+    [userDefaults removeObjectForKey:@"mySex"];
+    [userDefaults removeObjectForKey:@"myBrithDay"];
+    [userDefaults removeObjectForKey:@"myName"];
+    [userDefaults removeObjectForKey:@"myBanlance"];
+    [userDefaults synchronize];
+    [self deleteImage];
+}
+-(void)deleteImage{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *path = [paths lastObject];
+    //设置一个图片的存储路径
+    NSString *imagePath = [path stringByAppendingPathComponent:@"icon.png"];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL success = [fileManager fileExistsAtPath:imagePath];
+    if (success) {
+        [fileManager removeItemAtPath:imagePath error:nil];
+    }
+    
+}
 
 - (void)viewDidAppear:(BOOL)animated
 {
