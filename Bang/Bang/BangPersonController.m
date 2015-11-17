@@ -79,37 +79,19 @@
     
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title=@"我的资料";
+    self.title=@"我";
     self.view.backgroundColor=viewColor;
     self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
     [self setUI];
+    
+    UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    backBtn.frame = CGRectMake( 20, 20, 44, 44);
+    [backBtn setImage:[UIImage imageNamed:@"返回"] forState:UIControlStateNormal];
+    [backBtn addTarget:self action:@selector(backButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+    self.navigationItem.leftBarButtonItem = backItem;
     
     self.nameAlert =[[UIAlertView alloc]initWithTitle:@"请输入您的昵称" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     self.nameAlert.alertViewStyle=UIAlertViewStylePlainTextInput;
@@ -125,6 +107,12 @@
     self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithCustomView:right];
     
 }
+
+- (void)backButtonPressed:(UIButton *)button
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 -(void)rightBtnOnClick:(UIButton *)sender{
     if (self.back||!_nike||!_sex||!_brithDay) {
         KIWIAlertView *alert = [[KIWIAlertView alloc] initWithTitle:@"提示" icon:nil message:@"请完善个人信息后再保存！" delegate:nil buttonTitles:@"确定", nil];

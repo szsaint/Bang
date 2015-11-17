@@ -53,7 +53,7 @@
     self.title=@"我的订单";
     UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     backBtn.frame = CGRectMake( 20, 20, 44, 44);
-    [backBtn setImage:[UIImage imageNamed:@"返回按钮"] forState:UIControlStateNormal];
+    [backBtn setImage:[UIImage imageNamed:@"返回"] forState:UIControlStateNormal];
     [backBtn addTarget:self action:@selector(backButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = backItem;
