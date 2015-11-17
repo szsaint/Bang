@@ -425,7 +425,7 @@ typedef NS_ENUM(NSUInteger, DDState) {
         _leftView.transform =CGAffineTransformIdentity;
     }];
     [_cover coverHideAnimated];
-    if ([[NSUserDefaults standardUserDefaults]objectForKey:kUserName]){
+    if (![[NSUserDefaults standardUserDefaults]objectForKey:kUserName]){
         LoginViewController *loginVC = [[LoginViewController alloc] init];
         [self.navigationController pushViewController:loginVC animated:YES];
 
