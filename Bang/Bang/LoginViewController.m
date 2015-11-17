@@ -9,8 +9,6 @@
 #import "LoginViewController.h"
 #import "RegisterApi.h"
 #import "AaptchaApi.h"
-
-#import "ViewController.h"
 #import "KIWIAlertView.h"
 
 @interface LoginViewController ()<UINavigationBarDelegate,UIGestureRecognizerDelegate,UITextFieldDelegate,KIWIAlertViewDelegate>

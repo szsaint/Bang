@@ -14,9 +14,24 @@
 #import "PlaceViewController.h"
 #import "DDDriverManager.h"
 #import "DDLocationView.h"
+#import "SaintAnnotation.h"
+#import "SaintAnnotationView.h"
+#import "ExperienceViewController.h"
+#import "ServicePriceViewController.h"
+#import "AboutViewController.h"
+#import "MyOrdersViewController.h"
 
 #import "Toast+UIView.h"
 #import "MovingAnnotationView.h"
+
+#import "MainLeftView.h"
+#import "BangPersonController.h"
+#import "LoginViewController.h"
+
+#import "GetUserInfoApi.h"
+#import "UserLoginApi.h"
+#import "CreateOrder.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 typedef NS_ENUM(NSUInteger, DDState) {
     DDState_Init = 0,  //初始状态，显示选择终点
@@ -31,15 +46,15 @@ typedef NS_ENUM(NSUInteger, DDState) {
 #define kButtonHeight           40
 #define kAppName                @"i帮"
 
-@interface MainViewController ()<MAMapViewDelegate,PlaceViewControllerDelegate, DDDriverManagerDelegate, DDLocationViewDelegate>
+@interface MainViewController ()<MAMapViewDelegate,PlaceViewControllerDelegate, DDDriverManagerDelegate, DDLocationViewDelegate,UIGestureRecognizerDelegate,MainLeftViewDelegate,KIWIAlertViewDelegate,AMapSearchDelegate>
 {
     MAMapView *_mapView;
     UIView * _messageView;
-    
+    UIImageView *_centerView;
     DDDriverManager * _driverManager;
     NSArray * _drivers;
     MAPointAnnotation * _selectedDriver;
-    
+    AMapSearchAPI *_search;
     UIButton *_buttonAction;
     UIButton *_buttonCancel;
     UIButton *_buttonLocating;
@@ -55,6 +70,9 @@ typedef NS_ENUM(NSUInteger, DDState) {
 
 @property (nonatomic, strong) DDLocationView *locationView;
 @property (nonatomic, assign) BOOL isLocating;
+
+@property (nonatomic,strong)MainLeftView *leftView;
+@property (nonatomic,strong)Cover *cover;
 
 @end
 
@@ -104,6 +122,17 @@ typedef NS_ENUM(NSUInteger, DDState) {
     }];
 }
 
+-(void)initCenterView{
+    UIImage *image = [UIImage imageNamed:@"中心"];
+    _centerView = [[UIImageView alloc] initWithImage:image];
+    
+    _centerView.frame = CGRectMake(self.view.bounds.size.width/2-image.size.width/2, _mapView.bounds.size.height/2-image.size.height, image.size.width, image.size.height);
+    
+    _centerView.center = CGPointMake(CGRectGetWidth(self.view.bounds) / 2, CGRectGetHeight(_mapView.bounds) / 2 - CGRectGetHeight(_centerView.bounds) / 2);
+    
+    [self.view addSubview:_centerView];
+}
+
 #pragma mark - mapView delegate
 
 - (void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation updatingLocation:(BOOL)updatingLocation
@@ -117,27 +146,48 @@ typedef NS_ENUM(NSUInteger, DDState) {
 
 - (MAAnnotationView *)mapView:(MAMapView *)mapView viewForAnnotation:(id<MAAnnotation>)annotation
 {
-    if ([annotation isKindOfClass:[MAPointAnnotation class]])
-    {
-        static NSString *pointReuseIndetifier = @"driverReuseIndetifier";
-        
-        MovingAnnotationView *annotationView = (MovingAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:pointReuseIndetifier];
-        if (annotationView == nil)
-        {
-            annotationView = [[MovingAnnotationView alloc] initWithAnnotation:annotation
-                                                              reuseIdentifier:pointReuseIndetifier];
+    if ([annotation isKindOfClass:[SaintAnnotation class]]){
+        NSString * identifier = @"saintannotation";
+        SaintAnnotationView *saintAnnotationView = nil;
+        if (saintAnnotationView == nil) {
+            saintAnnotationView = [[SaintAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
         }
-        
-        UIImage *image = [UIImage imageNamed:@"icon_taxi"];
-        
-        annotationView.image = image;
-        annotationView.centerOffset = CGPointMake(0, -22);
-        annotationView.canShowCallout = YES;
-        
-        return annotationView;
+        else{
+            DDLogDebug(@"%@",[annotation class]);
+        }
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapPaoPao:)];
+        [saintAnnotationView addGestureRecognizer:tap];
+        return saintAnnotationView;
     }
     
     return nil;
+}
+
+//点击司机气泡
+- (void)tapPaoPao:(UIGestureRecognizer *)gesture{
+    DDLogError(@"点击了");
+}
+
+/**
+ *  初始化导航栏
+ *
+ *  @return void
+ */
+-(void)initNavigaBar{
+    self.title = kAppName;
+    
+    UIButton *personBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    personBtn.frame = CGRectMake(0, 0, 30, 30);
+    [personBtn setImage:[UIImage imageNamed:@"用户"] forState:UIControlStateNormal];
+    [personBtn addTarget:self action:@selector(openMenu) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithCustomView:personBtn];
+    self.navigationItem.leftBarButtonItem = leftItem;
+}
+
+-(void)openMenu{
+    [_leftView showInVisble];
+    [_cover coverShowAnimated];
 }
 
 #pragma mark - life cycle
@@ -158,6 +208,11 @@ typedef NS_ENUM(NSUInteger, DDState) {
     _mapView.showsCompass = NO;
     _mapView.showsScale = NO;
     [self.view addSubview:_mapView];
+    
+    UIScreenEdgePanGestureRecognizer *edgePan =[[UIScreenEdgePanGestureRecognizer alloc]initWithTarget:self action:@selector(edgePan:)];
+    edgePan.edges=UIRectEdgeLeft;
+    edgePan.delegate=self;
+    [_mapView addGestureRecognizer:edgePan];
     
     _driverManager = [[DDDriverManager alloc] init];
     _driverManager.delegate = self;
@@ -204,12 +259,320 @@ typedef NS_ENUM(NSUInteger, DDState) {
     [self.view addSubview:_locationView];
 
     [self setState:DDState_Init];
+    [self initUserLoginInformation];
+    //添加监听登陆成功的通知
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loginSuccess) name:@"loginSuccess" object:nil];
+    //添加退出登陆的通知
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(exitLogin) name:@"exitLogin" object:nil];
+    //重新加载用户信息的通知
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loadUserInfo) name:@"reloadUserInfo" object:nil];
+    [self initNavigaBar];
 }
+
+/* 移动窗口弹一下的动画 */
+- (void)myPointAnimimate
+{
+    [UIView animateWithDuration:0.5
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         CGPoint center = _centerView.center;
+                         center.y -= 20;
+                         [_centerView setCenter:center];}
+                     completion:nil];
+    
+    [UIView animateWithDuration:0.45
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         CGPoint center = _centerView.center;
+                         center.y += 20;
+                         [_centerView setCenter:center];
+                     }
+                     completion:nil];
+}
+
+
+-(void)viewWillAppear:(BOOL)animated{
+    //[self initUserLoginInformation];
+    if (!_centerView) {
+        [self initCenterView];
+    }
+    
+    if (!self.leftView) {
+        self.leftView =[MainLeftView shareInstance];
+        self.cover=[Cover creatHideCover];
+        self.leftView.leftViewDelegate=self;
+        [self.leftView showInSide];
+    }
+    //可以在这里发送请求更改用户的余额
+
+}
+
+-(void)initSearchAPI{
+    _search = [[AMapSearchAPI alloc] init];
+    _search.delegate = self;
+    
+}
+
+- (void)mapView:(MAMapView *)mapView regionDidChangeAnimated:(BOOL)animated
+{
+    [self searchAddress:mapView.centerCoordinate];
+    [self myPointAnimimate];
+}
+
+-(void)searchAddress:(CLLocationCoordinate2D) coordinate{
+    //构造AMapReGeocodeSearchRequest对象
+    AMapReGeocodeSearchRequest *regeo = [[AMapReGeocodeSearchRequest alloc] init];
+    regeo.location = [AMapGeoPoint locationWithLatitude:coordinate.latitude longitude:coordinate.longitude];
+    regeo.requireExtension = YES;
+    //发起逆地理编码
+    [_search AMapReGoecodeSearch: regeo];
+}
+
+//实现逆地理编码的回调函数
+- (void)onReGeocodeSearchDone:(AMapReGeocodeSearchRequest *)request response:(AMapReGeocodeSearchResponse *)response
+{
+    if(response.regeocode != nil)
+    {
+        //通过AMapReGeocodeSearchResponse对象处理搜索结果
+        //        NSString *result = [NSString stringWithFormat:@"ReGeocode: %@", response.regeocode];
+        //        NSLog(@"ReGeo: %@", result);
+        if ([response.regeocode.pois count]>0) {
+            AMapPOI *poi = response.regeocode.pois[0];
+           // NSString *addr = [NSString stringWithFormat:@"出发地点：%@",[poi name]];
+            DDLocation *location = [[DDLocation alloc] init];
+            CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(poi.location.latitude, poi.location.longitude);
+            location.coordinate = coordinate;
+            location.name = poi.name;
+            location.cityCode = poi.citycode;
+            location.address = poi.address;
+            _currentLocation = location;
+            _locationView.startLocation = location;
+        }
+        
+    }
+}
+
+-(void)loginSuccess{
+    //登陆
+    [self initUserLoginInformation];
+}
+-(void)exitLogin{
+    //置空用户信息
+    [self.leftView.headerView deleteDate];
+    
+}
+-(void)iconChange{
+    [self.leftView.headerView reloadIcon];
+}
+
+-(void)edgePan:(UIScreenEdgePanGestureRecognizer *)sender{
+    //获取偏移量
+    CGPoint offsetP =[sender translationInView:_mapView];
+    //获取x轴的偏移量
+    CGFloat offsetX =offsetP.x;
+    //最新位置
+    if (offsetX>=0.8*SCREEN_WIDTH) {
+        offsetX=0.8*SCREEN_WIDTH;
+    }
+    self.leftView.transform=CGAffineTransformMakeTranslation(offsetX, 0);
+    if (sender.state==UIGestureRecognizerStateCancelled||sender.state==UIGestureRecognizerStateEnded||sender.state==UIGestureRecognizerStateFailed) {
+        if (offsetX<0.3*SCREEN_WIDTH) {
+            [UIView animateWithDuration:0.25 animations:^{
+                self.leftView.transform=CGAffineTransformIdentity;
+            }];
+        }else{
+            CGFloat duration =1/(0.8*SCREEN_WIDTH/offsetX)*0.5;
+            [UIView animateWithDuration:duration animations:^{
+                self.leftView.transform=CGAffineTransformMakeTranslation(0.8*SCREEN_WIDTH, 0);
+            }];
+            
+            [self.cover coverShowAnimated];
+        }
+    }
+}
+
+//触发优先级
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldBeRequiredToFailByGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    BOOL result = NO;
+    
+    if ([gestureRecognizer isKindOfClass:[UIScreenEdgePanGestureRecognizer class]]) {
+        result = YES;
+    }
+    return result;
+}
+
+#pragma mark  leftViewdelegate
+
+-(void)leftView:(MainLeftView *)lefteView didSelectedHeader:(LeftHeaderView *)header{
+    if ([[NSUserDefaults standardUserDefaults]objectForKey:kUserName]) {
+        //说明已经登陆成功
+        BangPersonController *personVC =[[BangPersonController alloc]init];
+        [self.cover hideWhenPush];
+        [self.navigationController pushViewController:personVC animated:YES];
+        
+    }else{
+        //说明时未登录状态
+        LoginViewController *loginVC = [[LoginViewController alloc] init];
+        [self.cover hideWhenPush];
+        [self.navigationController pushViewController:loginVC animated:YES];
+        
+    }
+}
+
+-(void)leftView:(MainLeftView *)leftView didSelectedItemAtIndex:(NSInteger)index{
+    NSLog(@"%ld",(long)index);
+    [UIView animateWithDuration:0.5 animations:^{
+        _leftView.transform =CGAffineTransformIdentity;
+    }];
+    [_cover coverHideAnimated];
+    switch (index) {
+        case 0:
+        {
+            MyOrdersViewController *vc = [[MyOrdersViewController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+            break;
+        case 1:
+        {
+            ExperienceViewController *vc = [[ExperienceViewController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+            break;
+        case 2:
+        {
+            ServicePriceViewController *vc = [[ServicePriceViewController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+            break;
+        case 3:
+        {
+            
+        }
+            break;
+        case 4:
+        {
+            AboutViewController *vc = [[AboutViewController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+            break;
+        default:
+            break;
+    }
+}
+
+
+//加载用户信息
+- (void)loadUserInfo {
+    GetUserInfoApi *getUserInfoApi = [[GetUserInfoApi alloc] initWithUserId:@"0"];
+    [getUserInfoApi startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
+        if (request) {
+            //json如下
+            id result = [request responseJSONObject];
+            if ([request responseStatusCode] == 200 && [result[@"rst"] floatValue] == 0.f) {
+                NSMutableArray *userInfoArray = result[@"data"];
+                NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+                [userDefault setValue:[userInfoArray cy_stringKey:@"id"] forKey:kUserID];
+                [userDefault synchronize];
+                NSString *username =[userInfoArray valueForKey:@"username"];
+                self.leftView.headerView.phoneNumber=username;
+                NSString *banlance =[userInfoArray valueForKey:@"recharge"];
+                self.leftView.headerView.banlance=banlance;
+                
+                [self saveUserInfo:userInfoArray];
+                
+                if ([userInfoArray valueForKey:@"avatar"] != [NSNull null]) {
+                    NSString *url = [kServiceUrl stringByAppendingString:[userInfoArray valueForKey:@"avatar"]];
+                    
+                    [self.leftView.headerView.userIcon sd_setImageWithURL:[NSURL URLWithString:url]completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                        [self saveImage:image];
+                    }];
+                    
+                }
+            }
+        }
+    } failure:^(YTKBaseRequest *request) {
+        NSLog(@"加载失败 -- %@",request);
+    }];
+}
+-(void)saveUserInfo:(NSArray *)userinfoArray{
+    NSUserDefaults *userdefault =[NSUserDefaults standardUserDefaults];
+    NSString *myName =[userinfoArray valueForKey:@"name"];//昵称
+    NSString *mySex;//性别
+    if ([userinfoArray valueForKey:@"sex"]!=[NSNull null]) {
+        mySex =[userinfoArray valueForKey:@"sex"];
+    }
+    NSString *myBalance =[userinfoArray valueForKey:@"recharge"];//余额
+    if ([userinfoArray valueForKey:@"birthday"]!=[NSNull null]) {
+        NSString *birthday =[userinfoArray valueForKey:@"birthday"];
+        [userdefault setObject:birthday forKey:@"myBirthDay"];
+        //[userdefault synchronize];
+    }
+    [userdefault setObject:myName forKey:@"myName"];
+    //[userdefault synchronize];
+    
+    [userdefault setObject:mySex forKey:@"mySex"];
+    //[userdefault synchronize];
+    
+    [userdefault setObject:myBalance forKey:@"myBalance"];
+    [userdefault synchronize];
+    
+    
+}
+-(void)saveImage:(UIImage *)editImage{
+    //拿到图片
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *path = [paths lastObject];
+    //设置一个图片的存储路径
+    NSString *imagePath = [path stringByAppendingPathComponent:@"icon.png"];
+    //把图片直接保存到指定的路径（同时应该把图片的路径imagePath存起来，下次就可以直接用来取）
+    [UIImagePNGRepresentation(editImage) writeToFile:imagePath atomically:YES];
+    
+}
+
+- (void)alertView:(KIWIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if ([alertView tag] == 0) {
+        if (buttonIndex == 1) {
+            LoginViewController *loginVC = [[LoginViewController alloc] init];
+            [self.navigationController pushViewController:loginVC animated:YES];
+        }
+    }
+}
+
+- (void)initUserLoginInformation
+{
+    NSUserDefaults *iBangKey = [NSUserDefaults standardUserDefaults];
+    NSString *passWordStr = (NSString *)[iBangKey valueForKey:kPassword];
+    NSString *userNameStr = (NSString *)[iBangKey valueForKey:kUserName];
+    if (userNameStr && passWordStr) {
+        UserLoginApi *userLoginApi = [[UserLoginApi alloc] initWithUsername:userNameStr password:passWordStr];
+        [userLoginApi startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
+            if (request) {
+                id result = [request responseJSONObject];
+                if ([request responseStatusCode] == 200 && [result[@"rst"] floatValue] == 0.f) {
+                    //delegate.isLogin = YES;
+                    DDLogDebug(@"登录成功-- %@",request);
+                    [self updatingDrivers];
+                    //加载用户信息
+                    [self loadUserInfo];
+                }else{
+                    
+                }
+            }
+        } failure:^(YTKBaseRequest *request) {
+            id result = [request responseJSONObject];
+            DDLogError(@"登录失败 -- %@",request);
+        }];
+    }}
+
 
 - (void)viewDidAppear:(BOOL)animated
 {
     _mapView.delegate = self;
     _mapView.showsUserLocation = YES;
+    [self initSearchAPI];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -264,13 +627,59 @@ typedef NS_ENUM(NSUInteger, DDState) {
     NSLog(@"actionCallTaxi");
     if (self.currentLocation && self.destinationLocation)
     {
-        DDTaxiCallRequest * request = [[DDTaxiCallRequest alloc] initWithStart:self.currentLocation to:self.destinationLocation];
-        [_driverManager callTaxiWithRequest:request];
+//        DDTaxiCallRequest * request = [[DDTaxiCallRequest alloc] initWithStart:self.currentLocation to:self.destinationLocation];
+//        [_driverManager callTaxiWithRequest:request];
+//        
+//        _messageView = [_mapView viewForMessage:@"正在呼叫司机..." title:nil image:nil];
+//        _messageView.center = [_mapView centerPointForPosition:@"center" withToast:_messageView];
+//        [_mapView addSubview:_messageView];
+        [self createOrder:nil];
         
-        _messageView = [_mapView viewForMessage:@"正在呼叫司机..." title:nil image:nil];
-        _messageView.center = [_mapView centerPointForPosition:@"center" withToast:_messageView];
-        [_mapView addSubview:_messageView];
     }
+}
+
+- (void) createOrder:(NSString *)serveId{
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *d = [[NSMutableDictionary alloc] init];
+    [d setObject:[NSString stringWithFormat:@"%.6f",_currentLocation.coordinate.latitude] forKey:@"lat"];
+    [d setObject:[NSString stringWithFormat:@"%.6f",_currentLocation.coordinate.longitude] forKey:@"lng"];
+    if (serveId) {
+        [dic setObject:serveId forKey:@"server_id"];
+    }
+    [dic setObject:@"driver" forKey:@"type"];
+    [dic setObject:_currentLocation.name forKey:@"address"];
+    [dic setObject:d forKey:@"detail"];
+    [dic setObject:[self getCurrentTime] forKey:@"appointment"];
+    [dic setObject:@"ios" forKey:@"client_device"];
+    NSLog(@"%@",dic);
+    CreateOrder *api = [[CreateOrder alloc] initWithOrder:dic];
+    [api startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
+        if (request) {
+            id json = [request responseJSONObject];
+            float s = [json[@"rst"] floatValue];
+            if (s == 0.0f) {
+                
+            }
+            NSLog(@"ok");
+        }
+    } failure:^(YTKBaseRequest *request) {
+        id json = [request responseJSONObject];
+        NSLog(@"%@",json);
+    }];
+}
+
+    /**
+     *  获取当前时间
+     *
+     *  @return NSString
+     */
+-(NSString *)getCurrentTime{
+    NSDateFormatter  *dateformatter=[[NSDateFormatter alloc] init];
+    
+    [dateformatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    
+    NSString *locationString=[dateformatter stringFromDate:[NSDate date]];
+    return locationString;
 }
 
 - (void)actionLocating:(UIButton *)sender
@@ -280,7 +689,7 @@ typedef NS_ENUM(NSUInteger, DDState) {
     // 只有初始状态下才可以进行定位。
     if (_state != DDState_Init)
     {
-        [self.view makeToast:@"重新请求需先取消用车" duration:1.0 position:@"center"];
+        [self.view makeToast:@"请先取消呼叫代驾" duration:2.0 position:@"center"];
         return;
     }
     
@@ -290,7 +699,7 @@ typedef NS_ENUM(NSUInteger, DDState) {
         
         [self resetMapToCenter:_mapView.userLocation.location.coordinate];
         [self searchReGeocodeWithCoordinate:_mapView.userLocation.location.coordinate];
-        [self updatingDrivers];
+        
     }
 }
 
@@ -315,11 +724,12 @@ typedef NS_ENUM(NSUInteger, DDState) {
 #pragma mark - drivers
 - (void)updatingDrivers
 {
-#define latitudinalRangeMeters 1000.0
-#define longitudinalRangeMeters 1000.0
+//#define latitudinalRangeMeters 1000.0
+//#define longitudinalRangeMeters 1000.0
+//    
+//    MAMapRect rect = MAMapRectForCoordinateRegion(MACoordinateRegionMakeWithDistance(_mapView.centerCoordinate, latitudinalRangeMeters, longitudinalRangeMeters));
     
-    MAMapRect rect = MAMapRectForCoordinateRegion(MACoordinateRegionMakeWithDistance(_mapView.centerCoordinate, latitudinalRangeMeters, longitudinalRangeMeters));
-    [_driverManager searchDriversWithinMapRect:rect];
+    [_driverManager searchDriversWithinMapRect:_mapView.userLocation.location.coordinate];
 }
 
 #pragma mark - driversManager delegate
@@ -330,10 +740,11 @@ typedef NS_ENUM(NSUInteger, DDState) {
     
     NSMutableArray * currDrivers = [NSMutableArray arrayWithCapacity:[drivers count]];
     [drivers enumerateObjectsUsingBlock:^(DDDriver * obj, NSUInteger idx, BOOL *stop) {
-        MAPointAnnotation * driver = [[MAPointAnnotation alloc] init];
-        driver.coordinate = obj.coordinate;
-        driver.title = obj.idInfo;
-        [currDrivers addObject:driver];
+        SaintAnnotation *driverAnnotation = [[SaintAnnotation alloc] init];
+        driverAnnotation.coordinate = obj.coordinate;
+        [driverAnnotation setTag:obj.tag];
+        driverAnnotation.title = @" ";
+        [currDrivers addObject:driverAnnotation];
     }];
 
     [_mapView addAnnotations:currDrivers];
@@ -416,20 +827,45 @@ typedef NS_ENUM(NSUInteger, DDState) {
     /* 目的地. */
     navi.destination = [AMapGeoPoint locationWithLatitude:_destinationLocation.coordinate.latitude
                                                 longitude:_destinationLocation.coordinate.longitude];
+    navi.strategy = 2;//距离优先
+    navi.requireExtension = YES;
     
+    //发起路径搜索
+    [_search AMapDrivingRouteSearch: navi];
+    
+//    [[DDSearchManager sharedInstance] searchForRequest:navi completionBlock:^(id request, id response, NSError *error) {
+//        
+//        
+//    }];
+}
+
+- (void)onRouteSearchDone:(AMapRouteSearchBaseRequest *)request response:(AMapRouteSearchResponse *)response{
     __weak __typeof(&*self) weakSelf = self;
-    [[DDSearchManager sharedInstance] searchForRequest:navi completionBlock:^(id request, id response, NSError *error) {
-        
-        AMapRouteSearchResponse * naviResponse = response;
-        
-        if (naviResponse.route == nil)
-        {
-            [weakSelf.locationView setInfo:@"获取路径失败"];
-            return;
+    AMapRouteSearchResponse * naviResponse = response;
+    
+    if (naviResponse.route == nil)
+    {
+        [weakSelf.locationView setInfo:@"获取路径失败"];
+        return;
+    }
+    AMapPath * path = [naviResponse.route.paths firstObject];
+    [weakSelf.locationView setInfo:[NSString stringWithFormat:@"%@  距离%.1f km  时间%.1f分钟", [self getMoneynum:path.distance], path.distance / 1000.f, path.duration / 60.f, nil]];
+}
+
+-(NSString *)getMoneynum:(NSInteger) distance{
+    CGFloat m = 0;
+    if (distance<=3000) {
+        m = 39;
+    }else{
+        int dis = [[NSString stringWithFormat:@"%li",(long)distance] intValue]-3000;
+        int i = 1;
+        if (dis>3000) {
+            i = (dis-((dis/3000)*3000))>0 ? dis/3000+1 : dis/3000;
         }
-        AMapPath * path = [naviResponse.route.paths firstObject];
-        [weakSelf.locationView setInfo:[NSString stringWithFormat:@"预估费用%.2f元  距离%.1f km  时间%.1f分钟", naviResponse.route.taxiCost, path.distance / 1000.f, path.duration / 60.f, nil]];
-    }];
+        m = 39+20*i;
+    }
+    NSString *text = [NSString stringWithFormat:@"预估费用%.2f元",m];
+    return text;
 }
 
 - (void)setState:(DDState)state
@@ -522,5 +958,6 @@ typedef NS_ENUM(NSUInteger, DDState) {
     choosePlace.searchDelegate = self;
     [self.navigationController pushViewController:choosePlace animated:YES];
 }
+
 
 @end

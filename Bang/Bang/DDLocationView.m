@@ -95,7 +95,7 @@
         _costControl.hidden = YES;
         _costControl.textAlignment = NSTextAlignmentCenter;
         _costControl.textColor = [UIColor whiteColor];
-        _costControl.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:0.5];
+        _costControl.backgroundColor = SYSTEM_COLOR_GREEN;
         _costControl.adjustsFontSizeToFitWidth = YES;
         [self addSubview:_costControl];
     }

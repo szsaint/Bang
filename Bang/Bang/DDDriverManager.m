@@ -10,6 +10,7 @@
 #import <AMapSearchKit/AMapSearchAPI.h>
 #import "MANaviRoute.h"
 #import "DDSearchManager.h"
+#import "NearbyServers.h"
 
 @interface DDDriverManager() <AMapSearchDelegate>
 
@@ -27,27 +28,43 @@
 }
 
 //根据mapRect取司机数据
-- (void)searchDriversWithinMapRect:(MAMapRect)mapRect
+- (void)searchDriversWithinMapRect:(CLLocationCoordinate2D)coore
 {
-    //在mapRect区域里随机生成coordinate
-#define MAX_COUNT 50
-#define MIN_COUNT 5
-    NSUInteger randCount = arc4random() % MAX_COUNT + MIN_COUNT;
+    #define latitudinalRangeMeters 1000.0
+    #define longitudinalRangeMeters 1000.0
     
-    NSMutableArray * drivers = [NSMutableArray arrayWithCapacity:randCount];
-    for (int i = 0; i < randCount; i++)
-    {
-        DDDriver * driver = [DDDriver driverWithID:@"京B****" coordinate:[self randomPointInMapRect:mapRect]];
-        
-        [drivers addObject:driver];
-    }
+    MAMapRect rect = MAMapRectForCoordinateRegion(MACoordinateRegionMakeWithDistance(coore, latitudinalRangeMeters, longitudinalRangeMeters));
+    //NSLog(@"获取纬度 -- %f",_userLocation.location.coordinate.latitude);
+    NearbyServers *nearbyServers = [[NearbyServers alloc] initWithLng:coore.longitude andLat:coore.latitude andRange:8000 andType:@"driver"];
+    [nearbyServers startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
+        if (request) {
+            id result = [request responseJSONObject];
+            if ([request responseStatusCode] == 200 && [result[@"rst"] floatValue] == 0.f) {
+                NSMutableArray *nearbyDriversArray = result[@"data"];
+                DDLogDebug(@"附近的司机--%@",nearbyDriversArray);
+                NSMutableArray * currDrivers = [NSMutableArray arrayWithCapacity:[nearbyDriversArray count]];
+                for (int i = 0; i < [nearbyDriversArray count]; i ++) {
+                    float latitude = [nearbyDriversArray[i][@"lat"] floatValue];
+                    float longitude = [nearbyDriversArray[i][@"lng"] floatValue];
+                    
+                    CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(latitude, longitude);
+                    DDDriver * driver = [DDDriver driverWithID:nearbyDriversArray[i][@"user"][@"id"] coordinate:coordinate tag:nearbyDriversArray[i][@"user"]];
+                    [currDrivers addObject:driver];
+                }
+                //回调返回司机数据
+                if (self.delegate && [self.delegate respondsToSelector:@selector(searchDoneInMapRect:withDriversResult:timestamp:)])
+                {
+                    [self.delegate searchDoneInMapRect:rect withDriversResult:currDrivers timestamp:[NSDate date].timeIntervalSinceReferenceDate];
+                }
 
-    //回调返回司机数据
-    if (self.delegate && [self.delegate respondsToSelector:@selector(searchDoneInMapRect:withDriversResult:timestamp:)])
-    {
-        [self.delegate searchDoneInMapRect:mapRect withDriversResult:drivers timestamp:[NSDate date].timeIntervalSinceReferenceDate];
-    }
-    
+            }
+        }
+    } failure:^(YTKBaseRequest *request) {
+        if (request) {
+            NSInteger code = [request responseStatusCode];
+            DDLogDebug(@"加载司机出错，代码%li",code);
+        }
+    }];
 }
 
 //发送用车请求：起点终点

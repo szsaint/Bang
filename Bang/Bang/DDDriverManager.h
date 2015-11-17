@@ -21,7 +21,7 @@
 @property (nonatomic, weak) id<DDDriverManagerDelegate> delegate;
 
 //根据mapRect取司机数据
-- (void)searchDriversWithinMapRect:(MAMapRect)mapRect;
+- (void)searchDriversWithinMapRect:(CLLocationCoordinate2D)coore;
 
 //发送用车请求：起点终点
 - (BOOL)callTaxiWithRequest:(DDTaxiCallRequest *)request;

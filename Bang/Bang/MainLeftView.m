@@ -326,7 +326,9 @@
 -(void)pan:(UIPanGestureRecognizer *)sender{
     //if(self.hidden)return;
      CGPoint translation = [sender translationInView:self];//移动距离
-    if (translation.x>0)return;
+    if (translation.x>0){
+        translation.x = 0;
+    }
     if (translation.x<-0.8*SCREEN_WIDTH) {
 //        if (self.hidden==YES) {
 //            return;

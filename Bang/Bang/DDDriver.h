@@ -15,8 +15,12 @@
 
 @property (nonatomic, assign) CLLocationCoordinate2D coordinate;
 
+@property (nonatomic,strong) id tag;
+
 + (instancetype)driverWithID:(NSString *)idInfo coordinate:(CLLocationCoordinate2D)coordinate;
++ (instancetype)driverWithID:(NSString *)idInfo coordinate:(CLLocationCoordinate2D)coordinate tag:(id)tag;
 
 - (id)initWithID:(NSString *)idInfo coordinate:(CLLocationCoordinate2D)coordinate;
+- (id)initWithID:(NSString *)idInfo coordinate:(CLLocationCoordinate2D)coordinate tag:(id)tag;
 
 @end

@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ViewController.h"
 
 @class DDLocation;
 @class PlaceViewController;
@@ -19,7 +18,7 @@
 
 @end
 
-@interface PlaceViewController : UIViewController<MainViewControllerDelegate>
+@interface PlaceViewController : UIViewController
 
 @property(nonatomic,assign)id<PlaceViewControllerDelegate> searchDelegate;
 
