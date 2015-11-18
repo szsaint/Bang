@@ -10,7 +10,7 @@
 #import "ConvertTicket.h"
 #import "KIWIAlertView.h"
 
-@interface GetTickViewController ()<UIGestureRecognizerDelegate,UITableViewDelegate,UITableViewDataSource,KIWIAlertViewDelegate>
+@interface GetTickViewController ()<UITableViewDelegate,UITableViewDataSource,KIWIAlertViewDelegate>
 
 - (void)initUserDataSource;
 - (void)initUserInterface;
@@ -26,7 +26,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationController.interactivePopGestureRecognizer.delegate = self;
     [self initUserDataSource];
     [self initUserInterface];
 }

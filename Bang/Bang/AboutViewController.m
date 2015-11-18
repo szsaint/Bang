@@ -21,7 +21,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationController.interactivePopGestureRecognizer.delegate = self;
     [self initUserDataSource];
     [self initUserInterface];
 }

@@ -524,11 +524,17 @@ typedef NS_ENUM(NSUInteger, DDState) {
     
 }
 -(void)saveImage:(UIImage *)editImage{
-    //拿到图片
+    BOOL success;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSError *error;
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *path = [paths lastObject];
     //设置一个图片的存储路径
     NSString *imagePath = [path stringByAppendingPathComponent:@"icon.png"];
+    success = [fileManager fileExistsAtPath:path];
+    if(success) {
+        success = [fileManager removeItemAtPath:path error:&error];
+    }
     //把图片直接保存到指定的路径（同时应该把图片的路径imagePath存起来，下次就可以直接用来取）
     [UIImagePNGRepresentation(editImage) writeToFile:imagePath atomically:YES];
     

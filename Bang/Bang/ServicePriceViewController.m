@@ -8,7 +8,7 @@
 
 #import "ServicePriceViewController.h"
 
-@interface ServicePriceViewController ()<UIGestureRecognizerDelegate,UIWebViewDelegate>
+@interface ServicePriceViewController ()<UIWebViewDelegate>
 
 - (void)initUserDataSource;
 - (void)initUserInterface;
@@ -24,7 +24,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationController.interactivePopGestureRecognizer.delegate = self;
     [self initUserInterface];
     [self initUserDataSource];
 }

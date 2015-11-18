@@ -44,8 +44,6 @@
 		47D1D0A61BF75F3E008DCE34 /* MovingAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 47D1D0A41BF75F3E008DCE34 /* MovingAnnotationView.m */; };
 		47D1D0A91BF75F4A008DCE34 /* Toast+UIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 47D1D0A81BF75F4A008DCE34 /* Toast+UIView.m */; };
 		47D1D0B11BF7A404008DCE34 /* BangPersonController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47D1D0AC1BF7A404008DCE34 /* BangPersonController.m */; };
-		47D1D0B21BF7A404008DCE34 /* ChoseImageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47D1D0AE1BF7A404008DCE34 /* ChoseImageController.m */; };
-		47D1D0B31BF7A404008DCE34 /* ImagePickController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47D1D0B01BF7A404008DCE34 /* ImagePickController.m */; };
 		47D1D0B91BF7A436008DCE34 /* BangActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 47D1D0B81BF7A436008DCE34 /* BangActionSheet.m */; };
 		47D1D0BE1BF7A444008DCE34 /* CompleteUserInfoApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 47D1D0BB1BF7A444008DCE34 /* CompleteUserInfoApi.m */; };
 		47D1D0BF1BF7A444008DCE34 /* UploadImageApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 47D1D0BD1BF7A444008DCE34 /* UploadImageApi.m */; };
@@ -92,6 +90,12 @@
 		47F86E641BFB03CE00185A9B /* MyOrdersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47F86E631BFB03CE00185A9B /* MyOrdersViewController.m */; };
 		47F86E6B1BFB046600185A9B /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 47F86E6A1BFB046600185A9B /* Utils.m */; };
 		593FC3FC5925E0533C767874 /* libPods-Bang.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A128346A089F986A350E33B7 /* libPods-Bang.a */; };
+		7712076D1BFB741F00E89504 /* MyPurceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 771207641BFB741F00E89504 /* MyPurceCell.m */; };
+		7712076E1BFB741F00E89504 /* MyPurceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 771207661BFB741F00E89504 /* MyPurceController.m */; };
+		7712076F1BFB741F00E89504 /* MyPurceFootView.m in Sources */ = {isa = PBXBuildFile; fileRef = 771207681BFB741F00E89504 /* MyPurceFootView.m */; };
+		771207701BFB741F00E89504 /* MyPurceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7712076A1BFB741F00E89504 /* MyPurceModel.m */; };
+		771207711BFB741F00E89504 /* MyPurseheaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7712076C1BFB741F00E89504 /* MyPurseheaderView.m */; };
+		771207741BFB746000E89504 /* RichCashController.m in Sources */ = {isa = PBXBuildFile; fileRef = 771207731BFB746000E89504 /* RichCashController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -187,10 +191,6 @@
 		47D1D0A81BF75F4A008DCE34 /* Toast+UIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Toast+UIView.m"; sourceTree = "<group>"; };
 		47D1D0AB1BF7A404008DCE34 /* BangPersonController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BangPersonController.h; sourceTree = "<group>"; };
 		47D1D0AC1BF7A404008DCE34 /* BangPersonController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BangPersonController.m; sourceTree = "<group>"; };
-		47D1D0AD1BF7A404008DCE34 /* ChoseImageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChoseImageController.h; sourceTree = "<group>"; };
-		47D1D0AE1BF7A404008DCE34 /* ChoseImageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChoseImageController.m; sourceTree = "<group>"; };
-		47D1D0AF1BF7A404008DCE34 /* ImagePickController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImagePickController.h; sourceTree = "<group>"; };
-		47D1D0B01BF7A404008DCE34 /* ImagePickController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImagePickController.m; sourceTree = "<group>"; };
 		47D1D0B71BF7A436008DCE34 /* BangActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BangActionSheet.h; sourceTree = "<group>"; };
 		47D1D0B81BF7A436008DCE34 /* BangActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BangActionSheet.m; sourceTree = "<group>"; };
 		47D1D0BA1BF7A444008DCE34 /* CompleteUserInfoApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompleteUserInfoApi.h; sourceTree = "<group>"; };
@@ -272,6 +272,18 @@
 		4B01C83C81BFA24BECB11009 /* Pods-Bang.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bang.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Bang/Pods-Bang.debug.xcconfig"; sourceTree = "<group>"; };
 		5980770F603D63D0949E53E7 /* Pods-Bang.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bang.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bang/Pods-Bang.release.xcconfig"; sourceTree = "<group>"; };
 		674378C54AC64DD4A16AADB0 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		771207631BFB741F00E89504 /* MyPurceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyPurceCell.h; sourceTree = "<group>"; };
+		771207641BFB741F00E89504 /* MyPurceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyPurceCell.m; sourceTree = "<group>"; };
+		771207651BFB741F00E89504 /* MyPurceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyPurceController.h; sourceTree = "<group>"; };
+		771207661BFB741F00E89504 /* MyPurceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyPurceController.m; sourceTree = "<group>"; };
+		771207671BFB741F00E89504 /* MyPurceFootView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyPurceFootView.h; sourceTree = "<group>"; };
+		771207681BFB741F00E89504 /* MyPurceFootView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyPurceFootView.m; sourceTree = "<group>"; };
+		771207691BFB741F00E89504 /* MyPurceModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyPurceModel.h; sourceTree = "<group>"; };
+		7712076A1BFB741F00E89504 /* MyPurceModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyPurceModel.m; sourceTree = "<group>"; };
+		7712076B1BFB741F00E89504 /* MyPurseheaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyPurseheaderView.h; sourceTree = "<group>"; };
+		7712076C1BFB741F00E89504 /* MyPurseheaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyPurseheaderView.m; sourceTree = "<group>"; };
+		771207721BFB746000E89504 /* RichCashController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RichCashController.h; sourceTree = "<group>"; };
+		771207731BFB746000E89504 /* RichCashController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RichCashController.m; sourceTree = "<group>"; };
 		A128346A089F986A350E33B7 /* libPods-Bang.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Bang.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -614,6 +626,7 @@
 				47D1D0B61BF7A429008DCE34 /* Model */,
 				47D1D0B51BF7A41B008DCE34 /* View */,
 				47D1D0B41BF7A408008DCE34 /* Controller */,
+				771207621BFB738200E89504 /* 个人账户 */,
 			);
 			name = UserInfo;
 			sourceTree = "<group>";
@@ -623,10 +636,6 @@
 			children = (
 				47D1D0AB1BF7A404008DCE34 /* BangPersonController.h */,
 				47D1D0AC1BF7A404008DCE34 /* BangPersonController.m */,
-				47D1D0AD1BF7A404008DCE34 /* ChoseImageController.h */,
-				47D1D0AE1BF7A404008DCE34 /* ChoseImageController.m */,
-				47D1D0AF1BF7A404008DCE34 /* ImagePickController.h */,
-				47D1D0B01BF7A404008DCE34 /* ImagePickController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -855,6 +864,49 @@
 			name = APService;
 			sourceTree = "<group>";
 		};
+		771207621BFB738200E89504 /* 个人账户 */ = {
+			isa = PBXGroup;
+			children = (
+				771207761BFB747D00E89504 /* Controller */,
+				771207751BFB746E00E89504 /* View */,
+				771207771BFB748B00E89504 /* Model */,
+				771207691BFB741F00E89504 /* MyPurceModel.h */,
+				7712076A1BFB741F00E89504 /* MyPurceModel.m */,
+			);
+			name = "个人账户";
+			sourceTree = "<group>";
+		};
+		771207751BFB746E00E89504 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				771207631BFB741F00E89504 /* MyPurceCell.h */,
+				771207641BFB741F00E89504 /* MyPurceCell.m */,
+				771207671BFB741F00E89504 /* MyPurceFootView.h */,
+				771207681BFB741F00E89504 /* MyPurceFootView.m */,
+				7712076B1BFB741F00E89504 /* MyPurseheaderView.h */,
+				7712076C1BFB741F00E89504 /* MyPurseheaderView.m */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		771207761BFB747D00E89504 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				771207651BFB741F00E89504 /* MyPurceController.h */,
+				771207661BFB741F00E89504 /* MyPurceController.m */,
+				771207721BFB746000E89504 /* RichCashController.h */,
+				771207731BFB746000E89504 /* RichCashController.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		771207771BFB748B00E89504 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		D379D1C07BF19CEFE74CEA1E /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1055,19 +1107,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7712076E1BFB741F00E89504 /* MyPurceController.m in Sources */,
+				771207741BFB746000E89504 /* RichCashController.m in Sources */,
 				47F86E2F1BF96B6900185A9B /* AppointTimeCell.m in Sources */,
 				47F86E1E1BF96AB600185A9B /* LoadMyOrders.m in Sources */,
 				47F86E101BF96A4400185A9B /* NYSegment.m in Sources */,
 				47F86E301BF96B6900185A9B /* RouteCell.m in Sources */,
 				47F86E3A1BF96BDF00185A9B /* AcceptOrder.m in Sources */,
 				47F86E031BF9675E00185A9B /* CustomTableCell.m in Sources */,
+				771207711BFB741F00E89504 /* MyPurseheaderView.m in Sources */,
 				47D1D0901BF75EEB008DCE34 /* DDLocationControl.m in Sources */,
 				4744C8081BF3AAB70040A56C /* LocationCommon.m in Sources */,
 				47F86E251BF96B5700185A9B /* UserBeen.m in Sources */,
 				4744C82A1BF3B9620040A56C /* GetUserInfoApi.m in Sources */,
 				47F86DE51BF91D3400185A9B /* ExperienceViewController.m in Sources */,
 				47D1D0931BF75EFE008DCE34 /* DDDriver.m in Sources */,
-				47D1D0B21BF7A404008DCE34 /* ChoseImageController.m in Sources */,
 				47D1D09C1BF75F24008DCE34 /* DDTaxiCallRequest.m in Sources */,
 				477BD0221BF38E640014D3F4 /* NearbyServers.m in Sources */,
 				47D1D0B11BF7A404008DCE34 /* BangPersonController.m in Sources */,
@@ -1082,23 +1136,25 @@
 				47F86DDF1BF8F63B00185A9B /* CreateOrder.m in Sources */,
 				47D1D08A1BF75AD2008DCE34 /* DDSearchViewController.m in Sources */,
 				47D1D0801BF75600008DCE34 /* MainViewController.m in Sources */,
-				47D1D0B31BF7A404008DCE34 /* ImagePickController.m in Sources */,
 				47F86E2E1BF96B6900185A9B /* DriveInfoCell.m in Sources */,
 				470250721BF3736C00715768 /* AppDelegate.m in Sources */,
 				4702506F1BF3736C00715768 /* main.m in Sources */,
 				4744C81E1BF3B5D00040A56C /* KIWIAlertView.m in Sources */,
+				771207701BFB741F00E89504 /* MyPurceModel.m in Sources */,
 				47F86E461BF96C7800185A9B /* OperationApi.m in Sources */,
 				47F86E001BF9670A00185A9B /* AboutViewController.m in Sources */,
 				47F86DE61BF91D3400185A9B /* GetTickViewController.m in Sources */,
 				4744C8211BF3B5F60040A56C /* RegisterApi.m in Sources */,
 				47D1D0A61BF75F3E008DCE34 /* MovingAnnotationView.m in Sources */,
 				47F86E3F1BF96C3500185A9B /* StartWaitingApi.m in Sources */,
+				7712076F1BFB741F00E89504 /* MyPurceFootView.m in Sources */,
 				47F86E641BFB03CE00185A9B /* MyOrdersViewController.m in Sources */,
 				47C9DCF31BF61AAC00D3369D /* MainLeftView.m in Sources */,
 				47D1D09D1BF75F24008DCE34 /* DDDriverManager.m in Sources */,
 				4744C8241BF3B6090040A56C /* AaptchaApi.m in Sources */,
 				47D1D09E1BF75F24008DCE34 /* MANaviRoute.m in Sources */,
 				47F86E111BF96A4400185A9B /* NYSegmentedControl.m in Sources */,
+				7712076D1BFB741F00E89504 /* MyPurceCell.m in Sources */,
 				4744C82D1BF3BB890040A56C /* NSObject+OLIVEJSONValidator.m in Sources */,
 				4744C81A1BF3B5750040A56C /* LoginViewController.m in Sources */,
 				47F86DF21BF91DAA00185A9B /* ConvertTicket.m in Sources */,
@@ -1252,7 +1308,8 @@
 			baseConfigurationReference = 4B01C83C81BFA24BECB11009 /* Pods-Bang.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: ZhiPing Yan (VCJMPDMB26)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/AMap2DMap\"",
@@ -1319,7 +1376,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.saint.Bang;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "01676e9b-6141-4d1d-a0c4-f8a810d03f6e";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -1328,7 +1385,8 @@
 			baseConfigurationReference = 5980770F603D63D0949E53E7 /* Pods-Bang.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: ZhiPing Yan (VCJMPDMB26)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/AMap2DMap\"",
@@ -1395,7 +1453,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.saint.Bang;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "01676e9b-6141-4d1d-a0c4-f8a810d03f6e";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

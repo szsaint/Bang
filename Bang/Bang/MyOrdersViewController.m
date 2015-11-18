@@ -12,7 +12,7 @@
 #import "NewOrderListCell.h"
 #import "Utils.h"
 
-@interface MyOrdersViewController ()<UIGestureRecognizerDelegate,UITableViewDataSource,UITableViewDelegate>
+@interface MyOrdersViewController ()<UITableViewDataSource,UITableViewDelegate>
 
 @property (nonatomic,strong) NSMutableArray *resultArray;
 
@@ -37,7 +37,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationController.interactivePopGestureRecognizer.delegate = self;
     [self initUserDataSource];
     [self initUserInterface];
 }

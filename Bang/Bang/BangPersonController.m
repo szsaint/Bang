@@ -9,9 +9,7 @@
 
 #import "BangPersonController.h"
 #import <MobileCoreServices/MobileCoreServices.h>
-#import "ChoseImageController.h"
-
-#import "ImagePickController.h"
+#import "MyPurceController.h"
 #import "BangActionSheet.h"
 
 #import "CompleteUserInfoApi.h"
@@ -23,7 +21,7 @@
 #define ORIGINAL_MAX_WIDTH 400
 #define viewColor  [UIColor colorWithRed:0.93 green:0.93 blue:0.93 alpha:1]
 
-@interface BangPersonController ()<UIActionSheetDelegate,UIImagePickerControllerDelegate,ChoseImageControllerDelgate,UINavigationControllerDelegate,UITextFieldDelegate,UIAlertViewDelegate>
+@interface BangPersonController ()<UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,UIAlertViewDelegate>
 @property (nonatomic,strong)UIImageView *personlIcon;
 
 @property (nonatomic,strong)UIAlertView *nameAlert;
@@ -31,6 +29,8 @@
 @property (nonatomic,strong)BangActionSheet *sexActionSheet;
 
 @property (nonatomic,strong)UIView *back;
+
+@property (nonatomic,strong)UIButton *right;
 
 @end
 
@@ -42,6 +42,7 @@
     NSString *_sex;
     NSString *_brithDay;
     NSString *_avatar;
+    NSString *_banlance;//账户余额
     UIImage *_userIamge;
 }
 #pragma mark  alertSheet工厂方法
@@ -84,8 +85,6 @@
     self.title=@"我";
     self.view.backgroundColor=viewColor;
     self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
-    [self setUI];
-    
     UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     backBtn.frame = CGRectMake( 20, 20, 44, 44);
     [backBtn setImage:[UIImage imageNamed:@"返回"] forState:UIControlStateNormal];
@@ -103,8 +102,12 @@
     UIButton *right =[[UIButton alloc]initWithFrame:CGRectMake(0, 0, 50, 40)];
     [right setTitle:@"保存" forState:UIControlStateNormal];
     [right setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [right setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
+    self.right=right;
     [right addTarget:self action:@selector(rightBtnOnClick:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithCustomView:right];
+    [self setUI];
+
     
 }
 
@@ -118,6 +121,7 @@
         KIWIAlertView *alert = [[KIWIAlertView alloc] initWithTitle:@"提示" icon:nil message:@"请完善个人信息后再保存！" delegate:nil buttonTitles:@"确定", nil];
         [alert show];
     }else{
+    self.right.enabled=NO;
     //保存用户信息
     [self uploadImage:_userIamge];
     
@@ -139,9 +143,7 @@
             }
         }
     } failure:^(YTKBaseRequest *request) {
-//        NSLog(@"7777777----%@",request);
-//        id result = [request responseJSONObject];
-//        NSLog(@"加载失败 -- %@",request);
+        self.right.enabled=YES;
     }];
 }
 - (void) submitUserInfo{
@@ -157,12 +159,14 @@
                 KIWIAlertView *alert = [[KIWIAlertView alloc] initWithTitle:@"保存成功" icon:nil message:@"个人信息保存成功！" delegate:nil buttonTitles:@"确定", nil];
                 [alert setMessageColor:[UIColor blackColor] fontSize:0];
                 [alert show];
+                self.right.enabled=YES;
                 //发通知 让leftView去重新加载数据 并本地化
                 [[NSNotificationCenter defaultCenter]postNotificationName:@"reloadUserInfo" object:nil];
             }
         }
     } failure:^(YTKBaseRequest *request) {
         NSLog(@"加载失败 -- %@",request);
+        self.right.enabled=YES;
     }];
 }
 -(int)sexIntValue:(NSString *)sex{
@@ -173,12 +177,12 @@
 }
 -(void)setUI{
     NSString *phoneNumber =[[NSUserDefaults standardUserDefaults]objectForKey:kUserName];
-    _titleArr =[NSMutableArray arrayWithObjects:@"昵称",@"性别",@"生日",@"手机号", nil];
-    _detailTitleArr=[NSMutableArray arrayWithObjects:@"输入昵称",@"输入性别",@"输入生日", phoneNumber,nil];
-    
+    _titleArr =[NSMutableArray arrayWithObjects:@"昵称",@"性别",@"生日",@"手机号",@"账户余额", nil];
+    _detailTitleArr=[NSMutableArray arrayWithObjects:@"输入昵称",@"输入性别",@"输入生日", phoneNumber,@"￥0.00",nil];
     _nike =USER_nike;//用户昵称
     _sex =[[NSUserDefaults standardUserDefaults]objectForKey:@"mySex"];//性别
     _brithDay =[[NSUserDefaults standardUserDefaults]objectForKey:@"myBirthDay"];//生日
+    _banlance =[[NSUserDefaults standardUserDefaults]objectForKey:@"myBanlance"];//余额
     if (_nike) {
         [_detailTitleArr replaceObjectAtIndex:0 withObject:_nike];
     }
@@ -194,7 +198,9 @@
     if (_brithDay) {
         [_detailTitleArr replaceObjectAtIndex:2 withObject:_brithDay];
     }
-    
+    if (_banlance) {
+        [_detailTitleArr replaceObjectAtIndex:4 withObject:[NSString stringWithFormat:@"￥%@",_banlance]];
+    }
     //header
     CGFloat marginLeft =10;
     UIView *header =[[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 100)];
@@ -216,7 +222,6 @@
     [header addSubview:self.personlIcon];
     self.personlIcon.userInteractionEnabled=YES;
     self.personlIcon.center =CGPointMake(SCREEN_WIDTH-30-30, 50);//右边距30
-    //获取图片
     //拿到图片
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *path = [paths lastObject];
@@ -285,11 +290,15 @@
     if (!cell) {
         cell =[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:ID];
         cell.detailTextLabel.textColor =CONTENT_COLOR;
-        UIImageView *image =[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 10, 16)];
-        image.image=[UIImage imageNamed:@"accessory"];
+        //UIImageView *image =[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 10, 16)];
         cell.textLabel.font=[UIFont systemFontOfSize:15];
         cell.detailTextLabel.font=[UIFont systemFontOfSize:15];
-        cell.accessoryView=image;
+        //cell.accessoryView=image;
+    }
+    if (indexPath.section==4) {
+        UIImageView *image =[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 10, 16)];
+        image.image=[UIImage imageNamed:@"Rightarrow"];
+        cell.accessoryView =image;
     }
     cell.textLabel.text=_titleArr[indexPath.section];
     cell.detailTextLabel.text =_detailTitleArr[indexPath.section];
@@ -329,7 +338,9 @@
         [datePick addTarget:self action:@selector(datePickerValueChanged:) forControlEvents:UIControlEventValueChanged];
         [back addSubview:datePick];
         [self.view addSubview:back];
-        //        datePick.minimumDate =
+    }else if (indexPath.section==4){
+        MyPurceController *purceVC =[[MyPurceController alloc]init];
+        [self.navigationController pushViewController:purceVC animated:YES];
     }
 }
 -(void)datePickBackOnClick:(UITapGestureRecognizer *)sender{
@@ -360,7 +371,6 @@
 }
 #pragma mark   -------uitextfieldDelegate------
 - (void)textFieldDidEndEditing:(UITextField *)textField{
-    [self inputNameEnd:textField];
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     return YES;
@@ -370,8 +380,10 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (alertView==self.nameAlert) {
         //1 确定
-        UITextField *textField =[alertView textFieldAtIndex:0];
-        [self inputNameEnd:textField];
+        if (buttonIndex==1) {
+            UITextField *textField =[alertView textFieldAtIndex:0];
+            [self inputNameEnd:textField];
+        }
     }
 }
 //昵称输入结束
@@ -407,17 +419,6 @@
     return range.location<str.length;
 }
 
-#pragma  mark ChoseImageControllerDalegate
--(void)imageCropper:(ChoseImageController *)cropperViewController didFinished:(UIImage *)editedImage{
-    //这里获取到了iamge
-    self.personlIcon.image = editedImage;
-    _userIamge =editedImage;
-    //[self saveEditImage:editedImage];
-    [cropperViewController dismissViewControllerAnimated:YES completion:^{
-        // TO DO
-    }];
-    
-}
 -(void)deleteImage{
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *path = [paths lastObject];
@@ -430,44 +431,23 @@
     }
     
 }
--(void)imageCropperDidCancel:(ChoseImageController *)cropperViewControlelr{
-    [cropperViewControlelr dismissViewControllerAnimated:YES completion:^{
-    }];
-    
-}
 //照相机
 -(void)camera{
-    if ([self isCameraAvailable] && [self doesCameraSupportTakingPhotos]) {
-        ImagePickController *controller = [[ImagePickController alloc] init];
-        controller.sourceType = UIImagePickerControllerSourceTypeCamera;
-        if ([self isFrontCameraAvailable]) {
-            controller.cameraDevice = UIImagePickerControllerCameraDeviceFront;
-        }
-        NSMutableArray *mediaTypes = [[NSMutableArray alloc] init];
-        [mediaTypes addObject:(__bridge NSString *)kUTTypeImage];
-        controller.mediaTypes = mediaTypes;
-        controller.delegate = self;
-        [self presentViewController:controller
-                           animated:YES
-                         completion:^(void){
-                         }];
-    }
+    UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+    imagePicker.delegate = self;
+    imagePicker.allowsEditing = YES;
+    imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    [self presentViewController:imagePicker animated:YES completion:nil];
+
     
 }
 //本地相册
 -(void)localPhoto{
-    ImagePickController *pickerVC =[[ImagePickController alloc]init];
-    
-    
-    pickerVC.sourceType =UIImagePickerControllerSourceTypePhotoLibrary;//列表
-    NSMutableArray *mediaTypes =[[NSMutableArray alloc]init];
-    [mediaTypes addObject:(__bridge NSString *)kUTTypeImage];
-    pickerVC.mediaTypes =mediaTypes;
-    pickerVC.delegate=self;
-    
-    [self presentViewController:pickerVC animated:YES completion:^{
-        
-    }];
+    UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+    imagePicker.delegate = self;
+    imagePicker.allowsEditing = YES;
+    imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    [self presentViewController:imagePicker animated:YES completion:nil];
     
 }
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -495,17 +475,48 @@
 
 #pragma mark - UIImagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    //[picker dismissViewControllerAnimated:YES completion:^() {
-    UIImage *portraitImg = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
-    portraitImg = [self imageByScalingToMaxSize:portraitImg];
-    // 裁剪
-    ChoseImageController *imgEditorVC = [[ChoseImageController alloc] initWithImage:portraitImg cropFrame:CGRectMake(0, (SCREEN_HEIGHT-SCREEN_WIDTH)/2, self.view.frame.size.width, self.view.frame.size.width) limitScaleRatio:2.0];
-    imgEditorVC.delegate = self;
-    [picker pushViewController:imgEditorVC animated:YES];
-    // [self presentViewController:imgEditorVC animated:YES completion:^{
-    // TO DO
-    // }];
-    // }];
+    if ([[info objectForKey:UIImagePickerControllerMediaType] isEqualToString:(__bridge NSString *)kUTTypeImage]) {
+        UIImage *img = [info objectForKey:UIImagePickerControllerEditedImage];
+        UIImage *smallImage = [self thumbnailWithImageWithoutScale:img size:CGSizeMake(150, 150)];
+        self.personlIcon.image = smallImage;
+        _userIamge =smallImage;
+
+    }
+    [picker dismissViewControllerAnimated:YES completion:nil];
+
+}
+
+//2.保持原来的长宽比，生成一个缩略图
+- (UIImage *)thumbnailWithImageWithoutScale:(UIImage *)image size:(CGSize)asize
+{
+    UIImage *newimage;
+    if (nil == image) {
+        newimage = nil;
+    }
+    else{
+        CGSize oldsize = image.size;
+        CGRect rect;
+        if (asize.width/asize.height > oldsize.width/oldsize.height) {
+            rect.size.width = asize.height*oldsize.width/oldsize.height;
+            rect.size.height = asize.height;
+            rect.origin.x = (asize.width - rect.size.width)/2;
+            rect.origin.y = 0;
+        }
+        else{
+            rect.size.width = asize.width;
+            rect.size.height = asize.width*oldsize.height/oldsize.width;
+            rect.origin.x = 0;
+            rect.origin.y = (asize.height - rect.size.height)/2;
+        }
+        UIGraphicsBeginImageContext(asize);
+        CGContextRef context = UIGraphicsGetCurrentContext();
+        CGContextSetFillColorWithColor(context, [[UIColor clearColor] CGColor]);
+        UIRectFill(CGRectMake(0, 0, asize.width, asize.height));//clear background
+        [image drawInRect:rect];
+        newimage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+    }
+    return newimage;
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
@@ -513,126 +524,6 @@
     }];
 }
 
-#pragma mark - UINavigationControllerDelegate
-- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
-    
-}
-
-- (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
-    
-}
-
-#pragma mark camera utility
-- (BOOL) isCameraAvailable{
-    return [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera];
-}
-
-- (BOOL) isRearCameraAvailable{
-    return [UIImagePickerController isCameraDeviceAvailable:UIImagePickerControllerCameraDeviceRear];
-}
-
-- (BOOL) isFrontCameraAvailable {
-    return [UIImagePickerController isCameraDeviceAvailable:UIImagePickerControllerCameraDeviceFront];
-}
-
-- (BOOL) doesCameraSupportTakingPhotos {
-    return [self cameraSupportsMedia:(__bridge NSString *)kUTTypeImage sourceType:UIImagePickerControllerSourceTypeCamera];
-}
-
-- (BOOL) isPhotoLibraryAvailable{
-    return [UIImagePickerController isSourceTypeAvailable:
-            UIImagePickerControllerSourceTypePhotoLibrary];
-}
-- (BOOL) canUserPickVideosFromPhotoLibrary{
-    return [self
-            cameraSupportsMedia:(__bridge NSString *)kUTTypeMovie sourceType:UIImagePickerControllerSourceTypePhotoLibrary];
-}
-- (BOOL) canUserPickPhotosFromPhotoLibrary{
-    return [self
-            cameraSupportsMedia:(__bridge NSString *)kUTTypeImage sourceType:UIImagePickerControllerSourceTypePhotoLibrary];
-}
-
-- (BOOL) cameraSupportsMedia:(NSString *)paramMediaType sourceType:(UIImagePickerControllerSourceType)paramSourceType{
-    __block BOOL result = NO;
-    if ([paramMediaType length] == 0) {
-        return NO;
-    }
-    NSArray *availableMediaTypes = [UIImagePickerController availableMediaTypesForSourceType:paramSourceType];
-    [availableMediaTypes enumerateObjectsUsingBlock: ^(id obj, NSUInteger idx, BOOL *stop) {
-        NSString *mediaType = (NSString *)obj;
-        if ([mediaType isEqualToString:paramMediaType]){
-            result = YES;
-            *stop= YES;
-        }
-    }];
-    return result;
-}
-
-#pragma mark image scale utility
-- (UIImage *)imageByScalingToMaxSize:(UIImage *)sourceImage {
-    if (sourceImage.size.width < ORIGINAL_MAX_WIDTH) return sourceImage;
-    CGFloat btWidth = 0.0f;
-    CGFloat btHeight = 0.0f;
-    if (sourceImage.size.width > sourceImage.size.height) {
-        btHeight = ORIGINAL_MAX_WIDTH;
-        btWidth = sourceImage.size.width * (ORIGINAL_MAX_WIDTH / sourceImage.size.height);
-    } else {
-        btWidth = ORIGINAL_MAX_WIDTH;
-        btHeight = sourceImage.size.height * (ORIGINAL_MAX_WIDTH / sourceImage.size.width);
-    }
-    CGSize targetSize = CGSizeMake(btWidth, btHeight);
-    return [self imageByScalingAndCroppingForSourceImage:sourceImage targetSize:targetSize];
-}
-
-- (UIImage *)imageByScalingAndCroppingForSourceImage:(UIImage *)sourceImage targetSize:(CGSize)targetSize {
-    UIImage *newImage = nil;
-    CGSize imageSize = sourceImage.size;
-    CGFloat width = imageSize.width;
-    CGFloat height = imageSize.height;
-    CGFloat targetWidth = targetSize.width;
-    CGFloat targetHeight = targetSize.height;
-    CGFloat scaleFactor = 0.0;
-    CGFloat scaledWidth = targetWidth;
-    CGFloat scaledHeight = targetHeight;
-    CGPoint thumbnailPoint = CGPointMake(0.0,0.0);
-    if (CGSizeEqualToSize(imageSize, targetSize) == NO)
-    {
-        CGFloat widthFactor = targetWidth / width;
-        CGFloat heightFactor = targetHeight / height;
-        
-        if (widthFactor > heightFactor)
-            scaleFactor = widthFactor; // scale to fit height
-        else
-            scaleFactor = heightFactor; // scale to fit width
-        scaledWidth  = width * scaleFactor;
-        scaledHeight = height * scaleFactor;
-        
-        // center the image
-        if (widthFactor > heightFactor)
-        {
-            thumbnailPoint.y = (targetHeight - scaledHeight) * 0.5;
-        }
-        else
-            if (widthFactor < heightFactor)
-            {
-                thumbnailPoint.x = (targetWidth - scaledWidth) * 0.5;
-            }
-    }
-    UIGraphicsBeginImageContext(targetSize); // this will crop
-    CGRect thumbnailRect = CGRectZero;
-    thumbnailRect.origin = thumbnailPoint;
-    thumbnailRect.size.width  = scaledWidth;
-    thumbnailRect.size.height = scaledHeight;
-    
-    [sourceImage drawInRect:thumbnailRect];
-    
-    newImage = UIGraphicsGetImageFromCurrentImageContext();
-    if(newImage == nil) NSLog(@"could not scale image");
-    
-    //pop the context to get back to the default
-    UIGraphicsEndImageContext();
-    return newImage;
-}
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     //上传用户更改的信息

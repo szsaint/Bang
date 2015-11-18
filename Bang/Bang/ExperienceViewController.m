@@ -11,7 +11,7 @@
 #import "LoadTickets.h"
 #import "GetTickViewController.h"
 
-@interface ExperienceViewController ()<UIGestureRecognizerDelegate,UITableViewDelegate,UITableViewDataSource>
+@interface ExperienceViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 - (void)initUserDataSource;
 - (void)initUserInterface;
@@ -28,7 +28,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationController.interactivePopGestureRecognizer.delegate = self;
+    //self.navigationController.interactivePopGestureRecognizer.delegate = self;
     [self initUserDataSource];
     [self initUserInterface];
 }
