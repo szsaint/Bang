@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface MyPurseheaderView : UIView
+@property (nonatomic,strong)UILabel *totalMoney;//总金额
+//@property (nonatomic,strong)UILabel *cashMoney;//可提现金额
 +(instancetype)purseHeaderWithTotalMoney:(NSString *)tottalMoney cashMoney:(NSString *)cashMoney;
 @end

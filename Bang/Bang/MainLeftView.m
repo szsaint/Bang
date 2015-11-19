@@ -229,7 +229,7 @@
     }else{
         self.userPhoneNumber.text=@"未登录";
     }
-    NSString *banlance =[[NSUserDefaults standardUserDefaults]objectForKey:@"myBalance"];
+    NSString *banlance =[[NSUserDefaults standardUserDefaults]objectForKey:@"myBanlance"];
     if (banlance) {
         self.userBanlance.text=[NSString stringWithFormat:@"余额:%@",banlance];
     }else{
