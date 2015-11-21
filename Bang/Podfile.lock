@@ -24,6 +24,12 @@ PODS:
     - AFNetworking/NSURLSession
   - AMap2DMap (3.1.0)
   - AMapSearch (3.0.1)
+  - BeeCloud/Alipay (3.3.2):
+    - BeeCloud/Core
+  - BeeCloud/Core (3.3.2):
+    - AFNetworking
+  - BeeCloud/Wx (3.3.2):
+    - BeeCloud/Core
   - Bugly (1.4.1)
   - CocoaLumberjack (2.2.0):
     - CocoaLumberjack/Default (= 2.2.0)
@@ -46,6 +52,8 @@ PODS:
 DEPENDENCIES:
   - AMap2DMap
   - AMapSearch
+  - BeeCloud/Alipay
+  - BeeCloud/Wx
   - Bugly
   - CocoaLumberjack
   - MJRefresh
@@ -59,6 +67,7 @@ SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   AMap2DMap: a6741139dd16d237713c4fd6cae9a0399ca1fe25
   AMapSearch: 431b082417bd3da0c2fe594c4822b664607891e9
+  BeeCloud: c4eaf75e825040cc4b2c34546c974049f43f5426
   Bugly: 2f062c00a78566052c13d9b4b11a03ac0f1ae1b8
   CocoaLumberjack: 17fe8581f84914d5d7e6360f7c70022b173c3ae0
   MJRefresh: ca22bb7197c4a17a0491763773cd5cb106b2a810

@@ -63,4 +63,8 @@ static const int ddLogLevel = LOG_LEVEL_WARN;
 #define kPassword @"Password"
 #define kUserID @"UserId"
 
+#define kBeeCloudAPPID @"ebde5a8c-b876-40ad-84d9-8e6e5cf11ec2"
+#define kBeeCloudSecret @"a78c3a98-6c14-4e57-b7f2-de4954cf2208"
+#define kWeiXinAPPID @"wxa6a6743951b91366"
+
 #endif /* PrefixHeader_pch */

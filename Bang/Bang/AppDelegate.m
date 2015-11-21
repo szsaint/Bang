@@ -13,6 +13,7 @@
 #import "MainViewController.h"
 #import <AMapSearchKit/AMapSearchServices.h>
 #import "APService.h"
+#import <BeeCloud/BeeCloud.h>
 
 @interface AppDelegate ()
 
@@ -26,6 +27,14 @@
 - (void) initAMap{
     [MAMapServices sharedServices].apiKey = kAMapKey;
     [AMapSearchServices sharedServices].apiKey = kAMapKey;
+}
+
+- (void) initBeeCloud{
+    //请替换成自己的BeeCloud账户中的AppID和AppSecret
+    [BeeCloud initWithAppID:kBeeCloudAPPID andAppSecret:kBeeCloudSecret];
+    
+    //如果需要微信支付，请添加下面这行（自行替换微信APP ID）
+    [BeeCloud initWeChatPay:kWeiXinAPPID];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -111,6 +120,13 @@
     // IOS 7 Support Required
     [APService handleRemoteNotification:userInfo];
     completionHandler(UIBackgroundFetchResultNewData);
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    if (![BeeCloud handleOpenUrl:url]) {
+        //handle其他类型的url
+    }
+    return YES;
 }
 
 @end
