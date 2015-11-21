@@ -25,6 +25,8 @@
 @property (nonatomic,strong)NSArray *resultArray;
 @property (nonatomic,strong)NSArray *cashArray;//预备提现的数据
 
+@property (nonatomic,strong)UILabel *titleLab;//无消费记录的提示;
+
 @end
 
 @implementation MyPurceController
@@ -57,7 +59,7 @@
     model2.orderNumber =@"15119999458";
     
     
-    self.resultArray=@[model,model1,model2,model,model1,model2];
+    //self.resultArray=@[model,model1,model2,model,model1,model2];
     
     [self loadMyEndOrder];
     self.header.totalMoney.text=[[NSUserDefaults standardUserDefaults]objectForKey:@"myBanlance"];
@@ -66,10 +68,13 @@
     MyEndOrderApi *api =[[MyEndOrderApi alloc]initWithInfo:nil];
     [api startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
         id result =[request responseJSONObject];
-        NSLog(@"%@",result);
+        NSArray *arr =[result valueForKey:@"date"];
+        if (arr==nil) {
+            [self.tableView addSubview:self.titleLab];
+        }
     } failure:^(YTKBaseRequest *request) {
-        id result =[request responseJSONObject];
-        NSLog(@"%@",result);
+//        id result =[request responseJSONObject];
+//        NSLog(@"%@",result);
     }];
 }
 -(void)setUI{
@@ -93,6 +98,8 @@
     self.tableView.tableHeaderView=header;
     self.header=header;
     
+    
+    
     //充值
     UIButton *rechargeBtn =[[UIButton alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT-44, SCREEN_WIDTH, 44)];
     [rechargeBtn setTitle:@"余 额 充 值" forState:UIControlStateNormal];
@@ -102,7 +109,15 @@
     [self.view addSubview:rechargeBtn];
     
 }
-
+-(UILabel *)titleLab{
+    if (!_titleLab) {
+        _titleLab =[[UILabel alloc]initWithFrame:CGRectMake(0, 130, SCREEN_WIDTH, 35)];
+        _titleLab.textColor=[UIColor grayColor];
+        _titleLab.text=@"暂无您的消费记录";
+        _titleLab.textAlignment=NSTextAlignmentCenter;
+    }
+    return _titleLab;
+}
 - (void)backButtonPressed:(UIButton *)button
 {
     [self.navigationController popViewControllerAnimated:YES];

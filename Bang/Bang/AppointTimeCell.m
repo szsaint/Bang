@@ -17,8 +17,8 @@
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        _icon = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 30, 30)];
-        [_icon setImage:[UIImage imageNamed:@"终点"]];
+        _icon = [[UIImageView alloc] initWithFrame:CGRectMake(15, 15, 20, 20)];
+        [_icon setImage:[UIImage imageNamed:@"时间"]];
         _time = [[UILabel alloc] initWithFrame:CGRectMake(45, 10, SCREEN_WIDTH-45, 30)];
         _time.textAlignment = NSTextAlignmentLeft;
         _time.font = [UIFont fontWithName:@"Arial" size:14.0];

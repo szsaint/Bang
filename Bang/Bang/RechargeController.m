@@ -117,7 +117,12 @@
     if (self.textfield.text.length!=0) {
         self.textfield.text=@"";
     }
-    if (self.curentSelectedBtn==sender)return;
+    if (self.curentSelectedBtn==sender){
+        if (sender.selected==NO) {
+            self.curentSelectedBtn=nil;
+        }
+        return;
+    }
     if (self.curentSelectedBtn==nil) {
         self.curentSelectedBtn=sender;
     }else{

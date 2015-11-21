@@ -19,13 +19,22 @@
     if (self) {
         _jine = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH/2-50, 5, 100, 45)];
         _jine.textAlignment = NSTextAlignmentCenter;
-        _jine.font = [UIFont fontWithName:@"Arial" size:18.f];
+        _jine.font = [UIFont systemFontOfSize:22];//[UIFont fontWithName:@"Arial" size:18.f];
         [_jine setTextColor:[UIColor blackColor]];
         
         _distance = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH/2-50, 55, 100, 45)];
         _distance.textAlignment = NSTextAlignmentCenter;
-        _distance.font = [UIFont fontWithName:@"Arial" size:12.f];
+        _distance.font = [UIFont systemFontOfSize:20];//[UIFont fontWithName:@"Arial" size:12.f];
         [_distance setTextColor:[UIColor grayColor]];
+        
+        UILabel *titletab =[[UILabel alloc]initWithFrame:CGRectMake(0, 5, SCREEN_WIDTH, 100)];
+        titletab.text=@"正在为您代驾...";
+        titletab.font =[UIFont systemFontOfSize:20];
+        titletab.textColor=CONTENT_COLOR;
+        titletab.textAlignment=NSTextAlignmentCenter;
+        self.titlelab =titletab;
+        [self.contentView addSubview:titletab];
+        titletab.hidden=YES;
         
         [self.contentView addSubview:_jine];
         [self.contentView addSubview:_distance];

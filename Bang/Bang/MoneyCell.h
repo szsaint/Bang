@@ -12,6 +12,7 @@
 
 @property (nonatomic,strong) UILabel *jine;
 @property (nonatomic,strong) UILabel *distance;
+@property (nonatomic,strong)UILabel *titlelab;
 
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
 

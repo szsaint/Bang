@@ -25,8 +25,16 @@
         _name.textAlignment = NSTextAlignmentLeft;
         _name.font = [UIFont fontWithName:@"Arial" size:18.0];
         
-        _call = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-60, 10, 50, 50)];
+        _call = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-60, 15, 50, 50)];
         [_call setImage:[UIImage imageNamed:@"电话按钮"] forState:UIControlStateNormal];
+        
+        UILabel *titltlab =[[UILabel alloc]initWithFrame:CGRectMake(0, 20, SCREEN_WIDTH, 40)];
+        titltlab.font =[UIFont systemFontOfSize:18];
+        titltlab.textColor =CONTENT_COLOR;
+        titltlab.textAlignment=NSTextAlignmentCenter;
+        [self.contentView addSubview:titltlab];
+        self.titleLab=titltlab;
+        titltlab.hidden=YES;
         
         [self.contentView addSubview:_avatar];
         [self.contentView addSubview:_name];
@@ -40,5 +48,13 @@
 
     // Configure the view for the selected state
 }
-
+-(void)setStatus:(int)status{
+    _status =status;
+    if (status==0) {
+        //未接单
+        self.titleLab.hidden=NO;
+        self.call.hidden=YES;
+        self.titleLab.text=@"等待接单";
+    }
+}
 @end

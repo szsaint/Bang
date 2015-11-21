@@ -15,6 +15,9 @@
 @property (nonatomic,strong) UIButton *call;
 @property (nonatomic,strong) NSString *phone;
 
+@property (nonatomic,strong)UILabel *titleLab;
+@property (nonatomic,assign)int status;
+
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
 
 @end

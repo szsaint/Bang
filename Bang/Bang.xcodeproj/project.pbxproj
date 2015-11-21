@@ -97,6 +97,7 @@
 		771207861BFD56B800E89504 /* RechargeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 771207851BFD56B800E89504 /* RechargeController.m */; };
 		771207891BFD97BA00E89504 /* MyEndOrderApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 771207881BFD97BA00E89504 /* MyEndOrderApi.m */; };
 		7712078D1BFDACF300E89504 /* RechargeApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 7712078C1BFDACF300E89504 /* RechargeApi.m */; };
+		77A334851BFF087D00478114 /* NewOrderDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A334841BFF087D00478114 /* NewOrderDetailController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -288,6 +289,8 @@
 		7712078B1BFDACF300E89504 /* RechargeApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RechargeApi.h; sourceTree = "<group>"; };
 		7712078C1BFDACF300E89504 /* RechargeApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RechargeApi.m; sourceTree = "<group>"; };
 		7712079C1BFDB71200E89504 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		77A334831BFF087D00478114 /* NewOrderDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewOrderDetailController.h; sourceTree = "<group>"; };
+		77A334841BFF087D00478114 /* NewOrderDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewOrderDetailController.m; sourceTree = "<group>"; };
 		A128346A089F986A350E33B7 /* libPods-Bang.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Bang.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -791,6 +794,8 @@
 			children = (
 				47F86E621BFB03CE00185A9B /* MyOrdersViewController.h */,
 				47F86E631BFB03CE00185A9B /* MyOrdersViewController.m */,
+				77A334831BFF087D00478114 /* NewOrderDetailController.h */,
+				77A334841BFF087D00478114 /* NewOrderDetailController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -1140,6 +1145,7 @@
 				477BD0221BF38E640014D3F4 /* NearbyServers.m in Sources */,
 				47D1D0B11BF7A404008DCE34 /* BangPersonController.m in Sources */,
 				771207861BFD56B800E89504 /* RechargeController.m in Sources */,
+				77A334851BFF087D00478114 /* NewOrderDetailController.m in Sources */,
 				4728BC251BF6138B00277565 /* PlaceViewController.m in Sources */,
 				4728BC281BF6139500277565 /* PlaceAroundTableView.m in Sources */,
 				47F86E311BF96B6900185A9B /* MoneyCell.m in Sources */,

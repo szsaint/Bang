@@ -10,6 +10,7 @@
 #import <MJRefresh/MJRefresh.h>
 #import "LoadMyOrders.h"
 #import "NewOrderListCell.h"
+#import "NewOrderDetailController.h"
 #import "Utils.h"
 
 @interface MyOrdersViewController ()<UITableViewDataSource,UITableViewDelegate>
@@ -203,7 +204,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    NewOrderListCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    NewOrderDetailController *detailVC =[[NewOrderDetailController alloc]init];
+    detailVC.orderId = cell.orderId;
+    [self.navigationController pushViewController:detailVC animated:YES];
 }
 
 
