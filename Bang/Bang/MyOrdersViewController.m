@@ -108,8 +108,8 @@
             }
         }
     } failure:^(YTKBaseRequest *request) {
-        id result = [request responseJSONObject];
-        NSLog(@"加载失败 -- %@",request);
+//        id result = [request responseJSONObject];
+//        NSLog(@"加载失败 -- %@",request);
     }];
 }
 
@@ -137,7 +137,7 @@
                     nextUrl = nil;
                 }
                 
-                [_mainTableView.footer endRefreshing];
+                [_mainTableView.mj_footer endRefreshing];
                 [_mainTableView reloadData];
                 NSLog(@"7777777----%@",request);
             }

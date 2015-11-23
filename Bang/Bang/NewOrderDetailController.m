@@ -7,20 +7,21 @@
 //
 
 #import "NewOrderDetailController.h"
+#import "StarViewController.h"
+
 #import "DriveInfoCell.h"
 #import "AppointTimeCell.h"
 #import "RouteCell.h"
 #import "MoneyCell.h"
+
 #import <SDWebImage/UIImageView+WebCache.h>
+
 #import "LoadOrderDetail.h"
 #import "GetUserInfoApi.h"
-#import "AcceptOrder.h"
-#import "StartWaitingApi.h"
-#import "StartWorkingApi.h"
-#import "SurePayApi.h"
 #import "OperationApi.h"
 #import "APService.h"
 #import "Utils.h"
+#import "GetPayOrder.h"
 #import <SVProgressHUD/SVProgressHUD.h>
 
 //#import "LineViewController.h"
@@ -39,7 +40,6 @@
     OrderBeen *_order;
     NSInteger _ststus;
     BOOL _isMine;
-    BOOL _isToMe;
     NSString *_jinge;
     NSString *_distance;
 }
@@ -99,7 +99,7 @@
         }
     } failure:^(YTKBaseRequest *request) {
         [SVProgressHUD dismiss];
-        id result = [request responseJSONObject];
+        
         NSLog(@"加载失败 -- %@",request);
     }];
 }
@@ -195,16 +195,30 @@
                     _user.name = [_resultArray cy_stringKey:@"server_name"];
                     _user.phone = [_resultArray cy_stringKey:@"server_phone"];
                     [self loadUserInfo:_user.userId];
+                    
+                    _order = [[OrderBeen alloc] init];
+                    _order.appointTime = [_resultArray cy_stringKey:@"appointment"];
+                    _order.from = [_resultArray cy_stringKey:@"address"];
+                    _order.status = [_resultArray cy_intKey:@"status"];
+                    // _order.to 缺少到达地点
+                    _ststus = _order.status;
+                }else {
+                    _order = [[OrderBeen alloc] init];
+                    _order.appointTime = [_resultArray cy_stringKey:@"appointment"];
+                    _order.from = [_resultArray cy_stringKey:@"address"];
+                    _order.status = [_resultArray cy_intKey:@"status"];
+                    // _order.to 缺少到达地点
+                    _ststus = _order.status;
+                    _mainTableView.delegate = self;
+                    _mainTableView.dataSource = self;
+                    [_mainTableView reloadData];
+                    [SVProgressHUD dismiss];
                 }
                 
-                _order = [[OrderBeen alloc] init];
-                _order.appointTime = [_resultArray cy_stringKey:@"appointment"];
-                _order.from = [_resultArray cy_stringKey:@"address"];
-                _order.status = [_resultArray cy_intKey:@"status"];
-               // _order.to 缺少到达地点
-                _ststus = _order.status;
+               
                 if (_isMine) {
-                    if (_ststus == 40 || _ststus == 50 || _ststus == 58 || _ststus == 60) {
+                    if (_ststus == 40 || _ststus == 50 || _ststus == 58 ) {
+                        //|| _ststus == 60
                         [self initOpButton];
                     }
                 }
@@ -220,7 +234,7 @@
 
 -(void)cancelOrder{
     NSString *url = [@"/order/" stringByAppendingString:_orderId];
-    url = [url stringByAppendingString:@"/cancel"];
+    url = [url stringByAppendingString:@"/close"];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:@"取消订单",@"comment", nil];
     [self operation:url params:params];
     
@@ -264,6 +278,7 @@
             DriveInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:userInfoIdentifier];
             if (!cell) {
                 cell = [[DriveInfoCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:userInfoIdentifier];
+                cell.selectionStyle=UITableViewCellSelectionStyleNone;
             }
             if (_user.avater) {
                 //已经接单
@@ -282,6 +297,8 @@
             AppointTimeCell *cell = [tableView dequeueReusableCellWithIdentifier:orderAppointTimeIdentifier];
             if (!cell) {
                 cell = [[AppointTimeCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:orderAppointTimeIdentifier];
+                cell.selectionStyle=UITableViewCellSelectionStyleNone;
+
             }
             NSString *at =[@"预约时间：" stringByAppendingString: _order.appointTime];
             [cell.time setText:at];
@@ -291,6 +308,8 @@
             RouteCell *cell = [tableView dequeueReusableCellWithIdentifier:orderFromIdentifier];
             if (!cell) {
                 cell = [[RouteCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:orderFromIdentifier];
+                cell.selectionStyle=UITableViewCellSelectionStyleNone;
+
             }
             [cell.fromTxt setText:[@"出发地点：" stringByAppendingString:_order.from]];
             if (_order.to) {
@@ -305,14 +324,25 @@
             MoneyCell *cell = [tableView dequeueReusableCellWithIdentifier:moneyIdentifier];
             if (!cell) {
                 cell = [[MoneyCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:moneyIdentifier];
+                cell.selectionStyle=UITableViewCellSelectionStyleNone;
+
             }
             if (_ststus<40) {
-                if (_ststus<30) {
+                if (_ststus<20) {
                     return cell;
                 }else{
-                    cell.titlelab.hidden=NO;
+                    cell.stasus=_ststus;
+                }
+            }else if(_ststus==40||_ststus==50){
+                //去支付状态 需要主动去获取要支付的价格 以及里程
+                if (_jinge==nil) {
+                    [self getPayOrder];
+                }else{
+                    [cell.jine setText:[NSString stringWithFormat:@"%@元",_jinge]];
+                    [cell.distance setText:[NSString stringWithFormat:@"%@公里",_distance]];
                 }
             }else{
+                //已支付状态
                 [cell.jine setText: [NSString stringWithFormat:@"%@元",[_resultArray cy_stringKey:@"actual_price"]]];
                 id detail = [_resultArray valueForKey:@"detail"];
                 [cell.distance setText:[NSString stringWithFormat:@"%@公里",[detail cy_stringKey:@"distance"]]];
@@ -350,16 +380,39 @@
                 break;
             case 58:
                 //评价
+                [self caculate];
                 break;
             case 60:
-                //评价
+                //服务结束（已经评价）
+               // [self caculate];
                 break;
             default:
                 break;
         }
     }
 }
-
+//获取将要支付的订单信息
+-(void)getPayOrder{
+    [SVProgressHUD showWithStatus:@"正在计算费用..."];
+    GetPayOrder *api =[[GetPayOrder alloc]initWithOrderId:_orderId];
+    [api startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
+        id result =[request responseJSONObject];
+        float s = [result[@"rst"] floatValue];
+        if (s == 0.0f) {
+            _jinge =[result valueForKey:@"actual_price"];
+            id bill =[result valueForKey:@"bill"];
+            NSInteger start =[[bill valueForKey:@"start_distance"] integerValue];
+            NSInteger work =[[bill valueForKey:@"work_distance"] integerValue];
+            float distance =(start+work)/1000.00;
+            _distance =[NSString stringWithFormat:@"%.2f",distance];
+            NSIndexPath *indexPath=[NSIndexPath indexPathForRow:3 inSection:0];
+            [_mainTableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationNone];
+            [SVProgressHUD dismiss];
+        }
+    } failure:^(YTKBaseRequest *request) {
+        [SVProgressHUD dismiss];
+    }];
+}
 //操作
 -(void)operation:(NSString *) url params:(NSDictionary *) params{
     [SVProgressHUD showWithStatus:@"更新订单中..."];
@@ -371,6 +424,7 @@
             float s = [result[@"rst"] floatValue];
             if (s == 0.0f) {
                 [SVProgressHUD showSuccessWithStatus:result[@"msg"]];
+                [self performSelector:@selector(closeOrder) withObject:nil afterDelay:1.0];
                 
             }else{
                 
@@ -384,7 +438,10 @@
         NSLog(@"通讯失败,%@",result);
     }];
 }
-
+//取消订单
+-(void)closeOrder{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
 //支付
 -(void)payForOrder{
 //    PayViewController *vc = [[PayViewController alloc] init];
@@ -393,7 +450,9 @@
 }
 //评价
 -(void)caculate{
-    
+    StarViewController *starVc =[[StarViewController alloc]init];
+    starVc.orderId =_orderId;
+    [self.navigationController pushViewController:starVc animated:YES];
 }
 #pragma mark - 操作方法
 

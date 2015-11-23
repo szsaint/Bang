@@ -9,20 +9,22 @@
 #import "MyEndOrderApi.h"
 
 @implementation MyEndOrderApi{
-    NSDictionary *_info;
+    NSString *_url;
 }
 
-- (id) initWithInfo:(NSDictionary *)info{
-    self = [super init];
+
+-(id)initWithUrl:(NSString *)url{
+    self=[super init];
     if (self) {
-        _info = info;
+        _url=url;
     }
     return self;
 }
 
 - (NSString *)requestUrl
 {
-    return @"/order/my-paid";
+    return _url;
+    //return @"/order/my-paid";
 }
 
 - (YTKRequestMethod)requestMethod
@@ -32,7 +34,7 @@
 
 - (id)requestArgument
 {
-    return _info;
+    return nil;
 }
 
 //请求头示例

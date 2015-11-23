@@ -12,7 +12,7 @@
 #import "MyPurseheaderView.h"
 #import "MyPurceCell.h"
 #import "BangActionSheet.h"
-
+#import <MJRefresh/MJRefresh.h>
 
 
 #import "MyPurceModel.h"
@@ -29,7 +29,10 @@
 
 @end
 
-@implementation MyPurceController
+@implementation MyPurceController{
+    NSString *nextUrl;
+    NSMutableArray *ra;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -38,43 +41,98 @@
     self.view.backgroundColor=[UIColor redColor];
 }
 -(void)setUserDate{
-    //假数据
-    MyPurceModel *model =[[MyPurceModel alloc]init];
-    model.getMoney=@"-101";
-    model.time =@"11-11 01:00";
-    model.place=@"[和平饭店]";
-    model.orderNumber =@"15119999456";
     
-    MyPurceModel *model1 =[[MyPurceModel alloc]init];
-    model1.getMoney=@"现金";
-    model1.time =@"11-11 01:00";
-    model1.place=@"中国农业银行(张家港支行）";
-    model1.orderNumber =@"15119999457";
-    
-    
-    MyPurceModel *model2 =[[MyPurceModel alloc]init];
-    model2.getMoney=@"-101";
-    model2.time =@"11-11 01:00";
-    model2.place=@"张家港朝阳五官科医院";
-    model2.orderNumber =@"15119999458";
-    
-    
-    //self.resultArray=@[model,model1,model2,model,model1,model2];
-    
-    [self loadMyEndOrder];
-    self.header.totalMoney.text=[[NSUserDefaults standardUserDefaults]objectForKey:@"myBanlance"];
+    __weak UITableView *tableView = _tableView;
+    tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [self loadData:@"/order/my-paid"];
+        
+    }];
+    tableView.mj_header.automaticallyChangeAlpha = YES;
+    // 上拉刷新
+    tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        if (nextUrl) {
+            [self loadMoreData:nextUrl];
+        }else{
+            [tableView.mj_footer endRefreshingWithNoMoreData];
+        }
+        
+    }];
+    [self.tableView.mj_header beginRefreshing];
 }
--(void)loadMyEndOrder{
-    MyEndOrderApi *api =[[MyEndOrderApi alloc]initWithInfo:nil];
+
+- (void)loadData:(NSString *) url{
+    MyEndOrderApi *api = [[MyEndOrderApi alloc] initWithUrl:url];
     [api startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
-        id result =[request responseJSONObject];
-        NSArray *arr =[result valueForKey:@"date"];
-        if (arr==nil) {
-            [self.tableView addSubview:self.titleLab];
+        if (request) {
+            //json如下
+            id result = [request responseJSONObject];
+            float s = [result[@"rst"] floatValue];
+            if (s == 0.0f) {
+                NSArray *arr = result[@"data"];
+                if (arr==nil) {
+                    [self.tableView addSubview:self.titleLab];
+                }else{
+                    NSMutableArray *arrM =[NSMutableArray array];
+                    for (int i=0; i<arr.count; i++) {
+                    MyPurceModel *model = [MyPurceModel modelInitWithDic:arr[i]];
+                    [arrM addObject:model];
+                    }
+                    self.resultArray=arrM;
+                }
+                if (result[@"next_page_url"] != [NSNull null]) {
+                    nextUrl =result[@"next_page_url"];
+                    [self.tableView.mj_footer resetNoMoreData];
+                }else{
+                    nextUrl = nil;
+                }
+                
+                [self.tableView.mj_header endRefreshing];
+                [self.tableView reloadData];
+                self.header.totalMoney.text=[[NSUserDefaults standardUserDefaults]objectForKey:@"myBanlance"];
+                NSLog(@"7777777----%@",request);
+            }
         }
     } failure:^(YTKBaseRequest *request) {
-//        id result =[request responseJSONObject];
-//        NSLog(@"%@",result);
+        //id result = [request responseJSONObject];
+    }];
+}
+
+
+
+//上拉到底部加载更多数据
+- (void)loadMoreData:(NSString *) url{
+    MyEndOrderApi *api = [[MyEndOrderApi alloc] initWithUrl:url];
+    [api startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
+        if (request) {
+            //json如下
+            id result = [request responseJSONObject];
+            float s = [result[@"rst"] floatValue];
+            if (s == 0.0f) {
+                NSMutableArray *moreData = result[@"data"];
+                ra = [_resultArray mutableCopy];
+                _resultArray = nil;
+                [ra addObjectsFromArray:moreData];
+                NSMutableArray *arrM =[NSMutableArray array];
+                for (int i=0; i<ra.count; i++) {
+                    MyPurceModel *model = [MyPurceModel modelInitWithDic:ra[i]];
+                    [arrM addObject:model];
+                }
+                self.resultArray=arrM;
+//                _resultArray = [ra mutableCopy];
+                ra = nil;
+//                
+                if (result[@"next_page_url"] != [NSNull null]) {
+                    nextUrl =result[@"next_page_url"];
+                }else{
+                    nextUrl = nil;
+                }
+                
+                [self.tableView.mj_footer endRefreshing];
+                [self.tableView reloadData];
+            }
+        }
+    } failure:^(YTKBaseRequest *request) {
+        NSLog(@"加载失败 -- %@",request);
     }];
 }
 -(void)setUI{

@@ -28,7 +28,7 @@
         [_distance setTextColor:[UIColor grayColor]];
         
         UILabel *titletab =[[UILabel alloc]initWithFrame:CGRectMake(0, 5, SCREEN_WIDTH, 100)];
-        titletab.text=@"正在为您代驾...";
+        //titletab.text=@"正在为您代驾...";
         titletab.font =[UIFont systemFontOfSize:20];
         titletab.textColor=CONTENT_COLOR;
         titletab.textAlignment=NSTextAlignmentCenter;
@@ -47,5 +47,15 @@
 
     // Configure the view for the selected state
 }
-
+-(void)setStasus:(NSInteger)stasus{
+    _stasus =stasus;
+    if (_stasus==20) {
+        self.titlelab.text=@"司机正在为您等待";
+        self.titlelab.hidden=NO;
+    }else{
+        self.titlelab.text=@"正在为您代驾";
+        self.titlelab.hidden=NO;
+ 
+    }
+}
 @end

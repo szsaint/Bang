@@ -10,7 +10,8 @@
 
 @interface MyEndOrderApi : YTKRequest
 
-- (id) initWithInfo:(NSDictionary *) info;
+- (id) initWithUrl:(NSString *) url;
 - (id) responseJSONObject;
+
 
 @end

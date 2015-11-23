@@ -60,8 +60,7 @@
     CGFloat margin = 10;
     self.getMoney =[[UILabel alloc]initWithFrame:CGRectMake(margin, 0, leftW-2*margin, cellH)];
     self.getMoney.textColor =CONTENT_COLOR;
-    self.getMoney.font=[UIFont systemFontOfSize:18];
-    self.getMoney.numberOfLines=0;
+    self.getMoney.font=[UIFont systemFontOfSize:15];
     self.getMoney.textAlignment=NSTextAlignmentCenter;
     [self.contentView addSubview:self.getMoney];
     CGFloat maxW =SCREEN_WIDTH-leftW-2*margin;

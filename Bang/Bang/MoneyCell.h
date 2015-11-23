@@ -14,6 +14,8 @@
 @property (nonatomic,strong) UILabel *distance;
 @property (nonatomic,strong)UILabel *titlelab;
 
+@property (nonatomic,assign)NSInteger stasus;
+
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
 
 @end

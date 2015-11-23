@@ -39,6 +39,7 @@ PODS:
     - CocoaLumberjack/Core
   - CocoaLumberjack/Extensions (2.2.0):
     - CocoaLumberjack/Default
+  - DeformationButton (1.1)
   - MJRefresh (3.0.1)
   - RPJSONValidator (0.2.0)
   - SDWebImage (3.7.3):
@@ -56,6 +57,7 @@ DEPENDENCIES:
   - BeeCloud/Wx
   - Bugly
   - CocoaLumberjack
+  - DeformationButton
   - MJRefresh
   - RPJSONValidator (~> 0.2.0)
   - SDWebImage (~> 3.7)
@@ -70,6 +72,7 @@ SPEC CHECKSUMS:
   BeeCloud: c4eaf75e825040cc4b2c34546c974049f43f5426
   Bugly: 2f062c00a78566052c13d9b4b11a03ac0f1ae1b8
   CocoaLumberjack: 17fe8581f84914d5d7e6360f7c70022b173c3ae0
+  DeformationButton: ea42bae012b20cadbab500cad15ed3053721bed8
   MJRefresh: ca22bb7197c4a17a0491763773cd5cb106b2a810
   RPJSONValidator: a079b234c0f87833b657708adb80531dc45dbe83
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
