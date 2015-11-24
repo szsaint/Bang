@@ -104,6 +104,7 @@
 		7728647E1C01F3880001B43B /* StarApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 7728647D1C01F3880001B43B /* StarApi.m */; };
 		7785821F1C02E5FF008DE771 /* GetPayOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = 7785821E1C02E5FF008DE771 /* GetPayOrder.m */; };
 		77A334851BFF087D00478114 /* NewOrderDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A334841BFF087D00478114 /* NewOrderDetailController.m */; };
+		77EB369C1C043CFC00DDD415 /* ChargeDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77EB369B1C043CFC00DDD415 /* ChargeDetailController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -307,6 +308,8 @@
 		7785821E1C02E5FF008DE771 /* GetPayOrder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetPayOrder.m; sourceTree = "<group>"; };
 		77A334831BFF087D00478114 /* NewOrderDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewOrderDetailController.h; sourceTree = "<group>"; };
 		77A334841BFF087D00478114 /* NewOrderDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewOrderDetailController.m; sourceTree = "<group>"; };
+		77EB369A1C043CFC00DDD415 /* ChargeDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChargeDetailController.h; sourceTree = "<group>"; };
+		77EB369B1C043CFC00DDD415 /* ChargeDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChargeDetailController.m; sourceTree = "<group>"; };
 		A128346A089F986A350E33B7 /* libPods-Bang.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Bang.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -813,6 +816,8 @@
 				47F86E631BFB03CE00185A9B /* MyOrdersViewController.m */,
 				77A334831BFF087D00478114 /* NewOrderDetailController.h */,
 				77A334841BFF087D00478114 /* NewOrderDetailController.m */,
+				77EB369A1C043CFC00DDD415 /* ChargeDetailController.h */,
+				77EB369B1C043CFC00DDD415 /* ChargeDetailController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -1212,6 +1217,7 @@
 				7712078D1BFDACF300E89504 /* RechargeApi.m in Sources */,
 				47D1D09D1BF75F24008DCE34 /* DDDriverManager.m in Sources */,
 				4744C8241BF3B6090040A56C /* AaptchaApi.m in Sources */,
+				77EB369C1C043CFC00DDD415 /* ChargeDetailController.m in Sources */,
 				47D1D09E1BF75F24008DCE34 /* MANaviRoute.m in Sources */,
 				47F86E111BF96A4400185A9B /* NYSegmentedControl.m in Sources */,
 				7712076D1BFB741F00E89504 /* MyPurceCell.m in Sources */,

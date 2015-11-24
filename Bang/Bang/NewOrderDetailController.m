@@ -8,6 +8,7 @@
 
 #import "NewOrderDetailController.h"
 #import "StarViewController.h"
+#import "ChargeDetailController.h"//计费详情
 
 #import "DriveInfoCell.h"
 #import "AppointTimeCell.h"
@@ -27,7 +28,7 @@
 //#import "LineViewController.h"
 //#import "PayViewController.h"
 
-@interface NewOrderDetailController ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
+@interface NewOrderDetailController ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate,MoneyCellDelegate>
 
 @end
 
@@ -42,6 +43,7 @@
     BOOL _isMine;
     NSString *_jinge;
     NSString *_distance;
+    NSArray *_chargeArray;
 }
 
 - (void)viewDidLoad {
@@ -344,8 +346,12 @@
             }else{
                 //已支付状态
                 [cell.jine setText: [NSString stringWithFormat:@"%@元",[_resultArray cy_stringKey:@"actual_price"]]];
+                _chargeArray =[_resultArray valueForKey:@"bill"];
                 id detail = [_resultArray valueForKey:@"detail"];
-                [cell.distance setText:[NSString stringWithFormat:@"%@公里",[detail cy_stringKey:@"distance"]]];
+                float distance =[[detail cy_stringKey:@"distance"]integerValue]/1000.00;
+                cell.orderDetail.hidden=NO;
+                cell.delegate=self;
+                [cell.distance setText:[NSString stringWithFormat:@"%.2f公里",distance]];
             }
             return cell;
         }
@@ -453,6 +459,13 @@
     StarViewController *starVc =[[StarViewController alloc]init];
     starVc.orderId =_orderId;
     [self.navigationController pushViewController:starVc animated:YES];
+}
+
+#pragma mark moneyCell delegate 
+-(void)MoneyCell:(MoneyCell *)cell orederDetailOnClick:(UIButton *)sender{
+    ChargeDetailController *cahrgeVC =[[ChargeDetailController alloc]init];
+    cahrgeVC.chargeArray =_chargeArray;
+    [self.navigationController pushViewController:cahrgeVC animated:YES];
 }
 #pragma mark - 操作方法
 
